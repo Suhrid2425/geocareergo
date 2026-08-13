@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}
+Premium Test | GeoCareerGo
+{% endblock %}
+
+{% block content %}
+
+<section class="py-5">
+
+    <div class="container">
+
+        <div class="row justify-content-center">
+
+            <div class="col-lg-6">
+
+                <div class="feature-card text-center">
+
+                    <span class="badge bg-dark">
+                        PREMIUM
+                    </span>
+
+                    <h2 class="fw-bold mt-3">
+                        {{ test.title }}
+                    </h2>
+
+                    <p class="text-muted mt-3">
+                        This test is part of a premium
+                        GeoCareerGo Test Series.
+                    </p>
+
+                    <h3 class="fw-bold">
+                        ₹{{ test.price }}
+                    </h3>
+
+                    <button
+                        class="btn btn-dark mt-3"
+                        disabled
+                    >
+                        Purchase Required
+                    </button>
+
+                    <p class="text-muted small mt-3">
+                        Payment system will be added later.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

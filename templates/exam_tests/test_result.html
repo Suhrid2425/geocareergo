@@ -1,0 +1,349 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ test.title }} - Result | GeoCareerGo
+{% endblock %}
+
+
+{% block content %}
+
+<section class="py-5">
+
+    <div class="container">
+
+        <!-- ==================================================
+             HEADER
+        =================================================== -->
+
+        <div class="text-center mb-5">
+
+            <span class="badge bg-light text-dark border mb-3">
+                TEST RESULT
+            </span>
+
+            <h1 class="fw-bold">
+                {{ test.title }}
+            </h1>
+
+            <p class="text-muted">
+                Your test has been successfully submitted.
+            </p>
+
+        </div>
+
+
+        <!-- ==================================================
+             RESULT SUMMARY
+        =================================================== -->
+
+        <div class="row g-4 justify-content-center mb-5">
+
+
+            <!-- SCORE -->
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="feature-card text-center h-100">
+
+                    <div class="feature-icon">
+                        🏆
+                    </div>
+
+                    <p class="text-muted mb-1">
+                        Score
+                    </p>
+
+                    <h2 class="fw-bold">
+                        {{ attempt.score }}
+                    </h2>
+
+                    <small class="text-muted">
+                        out of {{ test.total_marks }}
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <!-- PERCENTAGE -->
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="feature-card text-center h-100">
+
+                    <div class="feature-icon">
+                        📊
+                    </div>
+
+                    <p class="text-muted mb-1">
+                        Percentage
+                    </p>
+
+                    <h2 class="fw-bold">
+                        {{ attempt.percentage|floatformat:2 }}%
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <!-- CORRECT -->
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="feature-card text-center h-100">
+
+                    <div class="feature-icon">
+                        ✅
+                    </div>
+
+                    <p class="text-muted mb-1">
+                        Correct
+                    </p>
+
+                    <h2 class="fw-bold text-success">
+
+                        {{ answers|length }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <!-- STATUS -->
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="feature-card text-center h-100">
+
+                    <div class="feature-icon">
+                        🎯
+                    </div>
+
+                    <p class="text-muted mb-1">
+                        Status
+                    </p>
+
+                    <h5 class="fw-bold text-success mt-3">
+                        Completed
+                    </h5>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ==================================================
+             ANSWER REVIEW
+        =================================================== -->
+
+        <div class="mb-4">
+
+            <h3 class="fw-bold">
+                Review Your Answers
+            </h3>
+
+            <p class="text-muted">
+                Check your answers, correct answers and explanations.
+            </p>
+
+        </div>
+
+
+        {% for answer in answers %}
+
+        <div class="feature-card mb-4">
+
+
+            <!-- QUESTION HEADER -->
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <h5 class="fw-bold mb-0">
+                    Question {{ forloop.counter }}
+                </h5>
+
+
+                {% if answer.is_correct %}
+
+                    <span class="badge bg-success">
+                        ✓ Correct
+                    </span>
+
+                {% elif answer.selected_answer %}
+
+                    <span class="badge bg-danger">
+                        ✗ Incorrect
+                    </span>
+
+                {% else %}
+
+                    <span class="badge bg-secondary">
+                        Unanswered
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+
+            <hr>
+
+
+            <!-- QUESTION -->
+
+            <p class="fw-semibold">
+                {{ answer.question.question_text }}
+            </p>
+
+
+            <!-- YOUR ANSWER -->
+
+            <div class="mt-3">
+
+                <p class="mb-1">
+
+                    <strong>
+                        Your Answer:
+                    </strong>
+
+                </p>
+
+
+                {% if answer.selected_answer %}
+
+                    <span class="badge bg-light text-dark border">
+                        {{ answer.selected_answer }}
+                    </span>
+
+                {% else %}
+
+                    <span class="text-muted">
+                        Not answered
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- CORRECT ANSWER -->
+
+            <div class="mt-3">
+
+                <p class="mb-1">
+
+                    <strong>
+                        Correct Answer:
+                    </strong>
+
+                </p>
+
+
+                <span class="badge bg-light text-dark border">
+                    {{ answer.question.correct_answer }}
+                </span>
+
+            </div>
+
+
+            <!-- MARKS -->
+
+            <div class="mt-3">
+
+                <strong>
+                    Marks:
+                </strong>
+
+                {% if answer.marks_obtained > 0 %}
+
+                    <span class="text-success">
+                        +{{ answer.marks_obtained }}
+                    </span>
+
+                {% elif answer.marks_obtained < 0 %}
+
+                    <span class="text-danger">
+                        {{ answer.marks_obtained }}
+                    </span>
+
+                {% else %}
+
+                    <span class="text-muted">
+                        0
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- EXPLANATION -->
+
+            {% if answer.question.explanation %}
+
+                <div class="mt-4 p-3 border rounded bg-light">
+
+                    <strong>
+                        Explanation
+                    </strong>
+
+                    <p class="text-muted mb-0 mt-2">
+                        {{ answer.question.explanation|linebreaks }}
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+
+        </div>
+
+
+        {% empty %}
+
+        <div class="feature-card text-center py-5">
+
+            <h4>
+                No answers found.
+            </h4>
+
+        </div>
+
+        {% endfor %}
+
+
+        <!-- ==================================================
+             ACTIONS
+        =================================================== -->
+
+        <div class="text-center mt-5">
+
+            <a
+                href="{% url 'exam_tests:test_home' %}"
+                class="btn btn-dark me-2"
+            >
+                Back to Tests
+            </a>
+
+
+            <a
+                href="{% url 'core:home' %}"
+                class="btn btn-outline-dark"
+            >
+                Home
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

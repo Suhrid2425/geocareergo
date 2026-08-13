@@ -1,0 +1,447 @@
+{% extends "base.html" %}
+
+{% block title %}
+Complete Your Profile | GeoCareerGo
+{% endblock %}
+
+{% block content %}
+
+<section class="py-5">
+
+    <div class="container">
+
+        <div
+            class="mx-auto"
+            style="max-width: 750px;"
+        >
+
+            <!-- HEADER -->
+
+            <div class="text-center mb-5">
+
+                <span class="badge bg-light text-dark border mb-3">
+                    STUDENT PROFILE
+                </span>
+
+                <h1 class="fw-bold">
+                    Complete Your Profile
+                </h1>
+
+                <p class="text-muted">
+                    Tell us a little about your education so we can
+                    personalize jobs, tests and preparation for you.
+                </p>
+
+            </div>
+
+
+            <!-- PROFILE FORM -->
+
+            <div class="feature-card">
+
+                <form method="POST">
+
+                    {% csrf_token %}
+
+
+                    <!-- FULL NAME -->
+
+                    <div class="mb-3"> 
+
+    <label class="form-label fw-semibold">
+        Full Name
+    </label>
+
+    <input
+        type="text"
+        name="full_name"
+        class="form-control"
+        value="{{ profile.full_name }}"
+        placeholder="Enter your full name"
+        required
+    >
+
+</div>
+
+
+                    <!-- DEGREE -->
+
+                    <div class="mb-3">
+
+                        <label class="form-label fw-semibold">
+                            Degree
+                        </label>
+
+                        <select
+                            name="degree"
+                            class="form-select"
+                            required
+                        >
+
+                            <option value="">
+                                Select your degree
+                            </option>
+
+                            {% for value, label in degree_choices %}
+
+                            <option
+                                value="{{ value }}"
+                                {% if profile.degree == value %}
+                                    selected
+                                {% endif %}
+                            >
+                                {{ label }}
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- BRANCH -->
+
+                    <div class="mb-3">
+
+                        <label class="form-label fw-semibold">
+                            Branch / Subject
+                        </label>
+
+                        <input
+                            type="text"
+                            name="branch"
+                            class="form-control"
+                            value="{{ profile.branch }}"
+                            placeholder="e.g. Geology, GIS, Geophysics"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- COLLEGE -->
+
+                    <div class="mb-3">
+
+                        <label class="form-label fw-semibold">
+                            College / University
+                        </label>
+
+                        <input
+                            type="text"
+                            name="college"
+                            class="form-control"
+                            value="{{ profile.college }}"
+                            placeholder="Enter your college or university"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- YEAR + SEMESTER -->
+
+                    <div class="row">
+
+
+                        <!-- YEAR -->
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label fw-semibold">
+                                Current Year
+                            </label>
+
+                            <select
+                                name="year"
+                                class="form-select"
+                                required
+                            >
+
+                                <option value="">
+                                    Select year
+                                </option>
+
+                                {% for value, label in year_choices %}
+
+                                <option
+                                    value="{{ value }}"
+                                    {% if profile.year == value %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    {{ label }}
+                                </option>
+
+                                {% endfor %}
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- SEMESTER -->
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label fw-semibold">
+                                Current Semester
+                            </label>
+
+                            <select
+                                name="semester"
+                                class="form-select"
+                                required
+                            >
+
+                                <option value="">
+                                    Select semester
+                                </option>
+
+                                {% for value, label in semester_choices %}
+
+                                <option
+                                    value="{{ value }}"
+                                    {% if profile.semester == value %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    {{ label }}
+                                </option>
+
+                                {% endfor %}
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- GRADUATION YEAR -->
+
+                    <div class="mb-3">
+
+                        <label class="form-label fw-semibold">
+                            Expected Graduation Year
+                        </label>
+
+                        <input
+                            type="number"
+                            name="graduation_year"
+                            class="form-control"
+                            value="{{ profile.graduation_year|default:'' }}"
+                            placeholder="e.g. 2027"
+                            min="2020"
+                            max="2040"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- EXAM INTEREST -->
+
+                    <div class="mb-3">
+
+                        <label class="form-label fw-semibold">
+                            Main Exam Interest
+                        </label>
+
+                        <select
+                            name="exam_interest"
+                            class="form-select"
+                        >
+
+                            <option value="">
+                                Select an option
+                            </option>
+
+                            <option
+                                value="GATE"
+                                {% if profile.exam_interest == "GATE" %}
+                                    selected
+                                {% endif %}
+                            >
+                                GATE
+                            </option>
+
+                            <option
+                                value="JAM"
+                                {% if profile.exam_interest == "JAM" %}
+                                    selected
+                                {% endif %}
+                            >
+                                JAM
+                            </option>
+
+                            <option
+                                value="NET"
+                                {% if profile.exam_interest == "NET" %}
+                                    selected
+                                {% endif %}
+                            >
+                                NET
+                            </option>
+
+                            <option
+                                value="PSU"
+                                {% if profile.exam_interest == "PSU" %}
+                                    selected
+                                {% endif %}
+                            >
+                                PSU
+                            </option>
+
+                            <option
+                                value="Government Exams"
+                                {% if profile.exam_interest == "Government Exams" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Government Exams
+                            </option>
+
+                            <option
+                                value="Placements"
+                                {% if profile.exam_interest == "Placements" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Placements
+                            </option>
+
+                            <option
+                                value="Higher Studies"
+                                {% if profile.exam_interest == "Higher Studies" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Higher Studies
+                            </option>
+
+                            <option
+                                value="Other"
+                                {% if profile.exam_interest == "Other" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Other
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- CAREER INTEREST -->
+
+                    <div class="mb-4">
+
+                        <label class="form-label fw-semibold">
+                            Career Interest
+                        </label>
+
+                        <select
+                            name="career_interest"
+                            class="form-select"
+                        >
+
+                            <option value="">
+                                Select an option
+                            </option>
+
+                            <option
+                                value="Geologist"
+                                {% if profile.career_interest == "Geologist" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Geologist
+                            </option>
+
+                            <option
+                                value="GIS Analyst"
+                                {% if profile.career_interest == "GIS Analyst" %}
+                                    selected
+                                {% endif %}
+                            >
+                                GIS Analyst
+                            </option>
+
+                            <option
+                                value="Geophysicist"
+                                {% if profile.career_interest == "Geophysicist" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Geophysicist
+                            </option>
+
+                            <option
+                                value="Research"
+                                {% if profile.career_interest == "Research" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Research
+                            </option>
+
+                            <option
+                                value="Government Sector"
+                                {% if profile.career_interest == "Government Sector" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Government Sector
+                            </option>
+
+                            <option
+                                value="Academia"
+                                {% if profile.career_interest == "Academia" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Academia
+                            </option>
+
+                            <option
+                                value="Other"
+                                {% if profile.career_interest == "Other" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Other
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- SUBMIT -->
+
+                    <button
+                        type="submit"
+                        class="btn btn-dark w-100"
+                    >
+                        Continue to GeoCareerGo
+                    </button>
+
+
+                    <p class="text-muted small text-center mt-3 mb-0">
+                        You can update your profile later.
+                    </p>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

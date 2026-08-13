@@ -1,0 +1,340 @@
+{% extends "base.html" %}
+
+{% block title %}
+Apply for {{ job.title }} | GeoCareerGo
+{% endblock %}
+
+{% block content %}
+
+<section class="py-5">
+
+    <div class="container">
+
+        <div
+            class="mx-auto"
+            style="max-width: 850px;"
+        >
+
+            <!-- ==================================================
+                 HEADER
+            ================================================== -->
+
+            <div class="mb-4">
+
+                <a
+                    href="{% url 'jobs:job_detail' job.id %}"
+                    class="text-decoration-none"
+                >
+                    ← Back to Job
+                </a>
+
+            </div>
+
+
+            <div class="text-center mb-5">
+
+                <span class="badge bg-light text-dark border mb-3">
+                    APPLY ON GEOCAREERGO
+                </span>
+
+                <h1 class="fw-bold">
+                    {{ job.title }}
+                </h1>
+
+                <p class="text-muted mb-0">
+                    {{ job.organization }}
+                </p>
+
+            </div>
+
+
+            <!-- ==================================================
+                 APPLICATION CARD
+            ================================================== -->
+
+            <div class="feature-card">
+
+
+                <!-- PROFILE INFORMATION -->
+
+                <h4 class="fw-bold mb-4">
+                    Your Profile
+                </h4>
+
+
+                <div class="row g-4">
+
+
+                    <!-- FULL NAME -->
+
+                    <div class="col-md-6">
+
+                        <small class="text-muted">
+                            Full Name
+                        </small>
+
+                        <p class="fw-semibold mb-0">
+
+                            {{ profile.full_name|default:user.username }}
+
+                        </p>
+
+                    </div>
+
+
+                    <!-- EMAIL -->
+
+                    <div class="col-md-6">
+
+                        <small class="text-muted">
+                            Email
+                        </small>
+
+                        <p class="fw-semibold mb-0">
+                            {{ user.email }}
+                        </p>
+
+                    </div>
+
+
+                    <!-- DEGREE -->
+
+                    <div class="col-md-6">
+
+                        <small class="text-muted">
+                            Degree
+                        </small>
+
+                        <p class="fw-semibold mb-0">
+
+                            {{ profile.get_degree_display|default:"Not added" }}
+
+                        </p>
+
+                    </div>
+
+
+                    <!-- BRANCH -->
+
+                    <div class="col-md-6">
+
+                        <small class="text-muted">
+                            Branch / Subject
+                        </small>
+
+                        <p class="fw-semibold mb-0">
+
+                            {{ profile.branch|default:"Not added" }}
+
+                        </p>
+
+                    </div>
+
+
+                    <!-- COLLEGE -->
+
+                    <div class="col-md-6">
+
+                        <small class="text-muted">
+                            College / University
+                        </small>
+
+                        <p class="fw-semibold mb-0">
+
+                            {{ profile.college|default:"Not added" }}
+
+                        </p>
+
+                    </div>
+
+
+                    <!-- GRADUATION YEAR -->
+
+                    <div class="col-md-6">
+
+                        <small class="text-muted">
+                            Graduation Year
+                        </small>
+
+                        <p class="fw-semibold mb-0">
+
+                            {{ profile.graduation_year|default:"Not added" }}
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <hr class="my-5">
+
+
+                <!-- ==================================================
+                     APPLICATION FORM
+                ================================================== -->
+
+                <h4 class="fw-bold mb-2">
+                    Application Details
+                </h4>
+
+                <p class="text-muted mb-4">
+                    Add your contact information and resume.
+                </p>
+
+
+                <form
+                    method="POST"
+                    enctype="multipart/form-data"
+                >
+
+                    {% csrf_token %}
+
+
+                    <!-- FORM ERRORS -->
+
+                    {% if form.non_field_errors %}
+
+                    <div class="alert alert-danger">
+
+                        {{ form.non_field_errors }}
+
+                    </div>
+
+                    {% endif %}
+
+
+                    <!-- PHONE -->
+
+                    <div class="mb-4">
+
+                        <label
+                            for="{{ form.phone.id_for_label }}"
+                            class="form-label fw-semibold"
+                        >
+                            Phone Number
+                        </label>
+
+                        {{ form.phone }}
+
+                        {% if form.phone.errors %}
+
+                        <div class="text-danger small mt-1">
+
+                            {{ form.phone.errors }}
+
+                        </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- RESUME -->
+
+                    <div class="mb-4">
+
+                        <label
+                            for="{{ form.resume.id_for_label }}"
+                            class="form-label fw-semibold"
+                        >
+                            Resume
+                        </label>
+
+                        {{ form.resume }}
+
+                        <div class="form-text">
+                            PDF, DOC or DOCX. Maximum size: 5 MB.
+                        </div>
+
+                        {% if form.resume.errors %}
+
+                        <div class="text-danger small mt-1">
+
+                            {{ form.resume.errors }}
+
+                        </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- COVER MESSAGE -->
+
+                    <div class="mb-4">
+
+                        <label
+                            for="{{ form.cover_message.id_for_label }}"
+                            class="form-label fw-semibold"
+                        >
+                            Cover Message
+                            <span class="text-muted fw-normal">
+                                (Optional)
+                            </span>
+                        </label>
+
+                        {{ form.cover_message }}
+
+                        <div class="form-text">
+                            Briefly introduce yourself to the employer.
+                        </div>
+
+                        {% if form.cover_message.errors %}
+
+                        <div class="text-danger small mt-1">
+
+                            {{ form.cover_message.errors }}
+
+                        </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- ==================================================
+                         SUBMIT
+                    ================================================== -->
+
+                    <div class="d-flex gap-2 mt-4">
+
+                        <a
+                            href="{% url 'jobs:job_detail' job.id %}"
+                            class="btn btn-outline-dark"
+                        >
+                            Cancel
+                        </a>
+
+                        <button
+                            type="submit"
+                            class="btn btn-dark flex-grow-1"
+                        >
+                            Submit Application
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+
+            <!-- ==================================================
+                 PRIVACY NOTE
+            ================================================== -->
+
+            <p class="text-muted small text-center mt-4">
+
+                Your application information and resume will be shared
+                only with the authorized hiring team for this job.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,430 @@
+{% extends "base.html" %}
+
+{% block title %}
+Tests | GeoCareerGo
+{% endblock %}
+
+{% block content %}
+
+<section class="py-5">
+
+    <div class="container">
+
+        <!-- ==================================================
+             HEADER
+        =================================================== -->
+
+        <div class="text-center mb-5">
+
+            <span class="badge bg-light text-dark border mb-3">
+                GATE • JAM • PSU • NET
+            </span>
+
+            <h1 class="fw-bold">
+                Tests & Practice
+            </h1>
+
+            <p class="text-muted">
+                Previous year papers, practice quizzes
+                and professional test series for Earth Science aspirants.
+            </p>
+
+        </div>
+
+
+        <!-- ==================================================
+             MY RESULTS
+        =================================================== -->
+
+        {% if user.is_authenticated %}
+
+        <div class="text-center mb-5">
+
+            <a
+                href="{% url 'exam_tests:my_results' %}"
+                class="btn btn-outline-dark"
+            >
+                📊 My Results
+            </a>
+
+        </div>
+
+        {% endif %}
+
+
+        <!-- ==================================================
+             FREE TESTS
+        =================================================== -->
+
+        <div class="mb-5">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+
+                <div>
+
+                    <h3 class="fw-bold mb-1">
+                        Free Tests
+                    </h3>
+
+                    <p class="text-muted mb-0">
+                        GATE, JAM and other previous year papers.
+                    </p>
+
+                </div>
+
+                <span class="badge bg-light text-dark border">
+                    FREE
+                </span>
+
+            </div>
+
+
+            <div class="row g-4">
+
+                {% for test in free_tests %}
+
+                <div class="col-md-6 col-lg-4">
+
+                    <div class="feature-card h-100">
+
+                        <span class="badge bg-light text-dark border">
+                            {{ test.get_category_display }}
+                        </span>
+
+
+                        <h4 class="mt-3">
+                            {{ test.title }}
+                        </h4>
+
+
+                        {% if test.description %}
+
+                        <p class="text-muted small">
+                            {{ test.description|truncatewords:20 }}
+                        </p>
+
+                        {% endif %}
+
+
+                        <div class="small text-muted mt-3">
+
+                            ⏱ {{ test.duration_minutes }} minutes
+
+                            &nbsp; • &nbsp;
+
+                            📝 {{ test.questions.count }} questions
+
+                        </div>
+
+
+                        <a
+                            href="{% url 'exam_tests:test_detail' test.id %}"
+                            class="btn btn-dark w-100 mt-3"
+                        >
+                            View Test
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                {% empty %}
+
+                <div class="col-12">
+
+                    <div class="text-center py-4">
+
+                        <p class="text-muted">
+                            Free tests will appear here soon.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+
+        <!-- ==================================================
+             FREE PRACTICE
+        =================================================== -->
+
+        <div class="mb-5">
+
+            <div class="mb-4">
+
+                <h3 class="fw-bold mb-1">
+                    Reasoning • Aptitude • Verbal
+                </h3>
+
+                <p class="text-muted">
+                    Free unlimited practice with instant answers
+                    and explanations.
+                </p>
+
+            </div>
+
+
+            <div class="row g-4">
+
+
+                <!-- ==================================================
+                     REASONING
+                =================================================== -->
+
+                <div class="col-md-4">
+
+                    <div class="feature-card h-100">
+
+                        <div class="feature-icon">
+                            🧠
+                        </div>
+
+                        <h4>
+                            Reasoning
+                        </h4>
+
+                        <p class="text-muted">
+                            Practice logical reasoning questions
+                            and improve your problem-solving ability.
+                        </p>
+
+                        <a
+                            href="{% url 'exam_tests:practice_quiz' 'reasoning' %}"
+                            class="btn btn-outline-dark"
+                        >
+                            Practice Now
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ==================================================
+                     APTITUDE
+                =================================================== -->
+
+                <div class="col-md-4">
+
+                    <div class="feature-card h-100">
+
+                        <div class="feature-icon">
+                            📊
+                        </div>
+
+                        <h4>
+                            Aptitude
+                        </h4>
+
+                        <p class="text-muted">
+                            Improve quantitative aptitude
+                            through unlimited practice.
+                        </p>
+
+                        <a
+                            href="{% url 'exam_tests:practice_quiz' 'aptitude' %}"
+                            class="btn btn-outline-dark"
+                        >
+                            Practice Now
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ==================================================
+                     VERBAL
+                =================================================== -->
+
+                <div class="col-md-4">
+
+                    <div class="feature-card h-100">
+
+                        <div class="feature-icon">
+                            📖
+                        </div>
+
+                        <h4>
+                            Verbal
+                        </h4>
+
+                        <p class="text-muted">
+                            Practice vocabulary, grammar
+                            and verbal ability.
+                        </p>
+
+                        <a
+                            href="{% url 'exam_tests:practice_quiz' 'verbal' %}"
+                            class="btn btn-outline-dark"
+                        >
+                            Practice Now
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ==================================================
+             PREMIUM TEST SERIES
+        =================================================== -->
+
+        <div class="mb-5">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+
+                <div>
+
+                    <h3 class="fw-bold mb-1">
+                        Premium Test Series
+                    </h3>
+
+                    <p class="text-muted mb-0">
+                        Full-length tests for serious exam preparation.
+                    </p>
+
+                </div>
+
+                <span class="badge bg-dark">
+                    PREMIUM
+                </span>
+
+            </div>
+
+
+            <div class="row g-4">
+
+                {% for test in paid_tests %}
+
+                <div class="col-md-6 col-lg-4">
+
+                    <div class="feature-card h-100">
+
+
+                        <span class="badge bg-dark">
+                            {{ test.get_category_display }}
+                        </span>
+
+
+                        <h4 class="mt-3">
+                            {{ test.title }}
+                        </h4>
+
+
+                        {% if test.description %}
+
+                        <p class="text-muted small">
+                            {{ test.description|truncatewords:20 }}
+                        </p>
+
+                        {% endif %}
+
+
+                        <div class="small text-muted">
+
+                            ⏱ {{ test.duration_minutes }} minutes
+
+                            &nbsp; • &nbsp;
+
+                            📝 {{ test.questions.count }} questions
+
+                        </div>
+
+
+                        <div class="mt-3">
+
+                            <strong class="fs-5">
+                                ₹{{ test.price }}
+                            </strong>
+
+                        </div>
+
+
+                        <a
+                            href="{% url 'exam_tests:test_detail' test.id %}"
+                            class="btn btn-dark w-100 mt-3"
+                        >
+                            View Test Series
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                {% empty %}
+
+                <div class="col-12">
+
+                    <div class="text-center py-4">
+
+                        <p class="text-muted">
+                            Premium test series will appear here soon.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+
+        <!-- ==================================================
+             FACULTY DOUBT SOLVING
+        =================================================== -->
+
+        <div class="feature-card text-center py-5">
+
+            <div class="feature-icon">
+                👨‍🏫
+            </div>
+
+
+            <h3 class="fw-bold">
+                Faculty Doubt Solving
+            </h3>
+
+
+            <p
+                class="text-muted mx-auto"
+                style="max-width: 650px;"
+            >
+                Purchased a Test Series and stuck on a question?
+                Submit your doubt and get help from our faculty.
+            </p>
+
+
+            <button
+                class="btn btn-dark"
+                disabled
+            >
+                Ask Faculty
+            </button>
+
+
+            <p class="text-muted small mt-2 mb-0">
+                Available to Test Series students.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,603 @@
+{% extends "base.html" %}
+
+{% block title %}
+Jobs | GeoCareerGo
+{% endblock %}
+
+{% block content %}
+
+<section class="py-5">
+
+    <div class="container">
+
+
+        <!-- ==================================================
+             PAGE HEADER
+        =================================================== -->
+
+        <div class="text-center mb-5">
+
+            <h1 class="fw-bold">
+                Find Your Next Opportunity
+            </h1>
+
+            <p class="text-muted">
+                Explore jobs across Geology, GIS, Geophysics
+                and Earth Science.
+            </p>
+
+        </div>
+
+
+        <!-- ==================================================
+             SEARCH & FILTER
+        =================================================== -->
+
+        <div class="job-search-box mb-4">
+
+            <form method="GET">
+
+                <div class="row g-3">
+
+
+                    <!-- SEARCH -->
+
+                    <div class="col-lg-6">
+
+                        <label class="form-label fw-semibold">
+                            Search
+                        </label>
+
+                        <input
+                            type="text"
+                            name="q"
+                            value="{{ search }}"
+                            class="form-control"
+                            placeholder="Job title, organization or location..."
+                        >
+
+                    </div>
+
+
+                    <!-- JOB TYPE -->
+
+                    <div class="col-lg-3">
+
+                        <label class="form-label fw-semibold">
+                            Job Type
+                        </label>
+
+                        <select
+                            name="type"
+                            class="form-select"
+                        >
+
+                            <option value="">
+                                All Job Types
+                            </option>
+
+                            <option
+                                value="private"
+                                {% if selected_type == "private" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Private
+                            </option>
+
+                            <option
+                                value="government"
+                                {% if selected_type == "government" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Government
+                            </option>
+
+                            <option
+                                value="psu"
+                                {% if selected_type == "psu" %}
+                                    selected
+                                {% endif %}
+                            >
+                                PSU
+                            </option>
+
+                            <option
+                                value="internship"
+                                {% if selected_type == "internship" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Internship
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- DEGREE -->
+
+                    <div class="col-lg-3">
+
+                        <label class="form-label fw-semibold">
+                            Degree
+                        </label>
+
+                        <select
+                            name="degree"
+                            class="form-select"
+                        >
+
+                            <option value="">
+                                All Degrees
+                            </option>
+
+                            <option
+                                value="any"
+                                {% if selected_degree == "any" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Any Degree
+                            </option>
+
+                            <option
+                                value="bsc"
+                                {% if selected_degree == "bsc" %}
+                                    selected
+                                {% endif %}
+                            >
+                                B.Sc
+                            </option>
+
+                            <option
+                                value="msc"
+                                {% if selected_degree == "msc" %}
+                                    selected
+                                {% endif %}
+                            >
+                                M.Sc
+                            </option>
+
+                            <option
+                                value="btech"
+                                {% if selected_degree == "btech" %}
+                                    selected
+                                {% endif %}
+                            >
+                                B.Tech
+                            </option>
+
+                            <option
+                                value="mtech"
+                                {% if selected_degree == "mtech" %}
+                                    selected
+                                {% endif %}
+                            >
+                                M.Tech
+                            </option>
+
+                            <option
+                                value="ba"
+                                {% if selected_degree == "ba" %}
+                                    selected
+                                {% endif %}
+                            >
+                                B.A
+                            </option>
+
+                            <option
+                                value="ma"
+                                {% if selected_degree == "ma" %}
+                                    selected
+                                {% endif %}
+                            >
+                                M.A
+                            </option>
+
+                            <option
+                                value="phd"
+                                {% if selected_degree == "phd" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Ph.D
+                            </option>
+
+                            <option
+                                value="other"
+                                {% if selected_degree == "other" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Other
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- MIN EXPERIENCE -->
+
+                    <div class="col-md-4">
+
+                        <label class="form-label fw-semibold">
+                            Minimum Experience
+                        </label>
+
+                        <select
+                            name="min_experience"
+                            class="form-select"
+                        >
+
+                            <option value="">
+                                Any
+                            </option>
+
+                            <option
+                                value="0"
+                                {% if selected_min_experience == "0" %}
+                                    selected
+                                {% endif %}
+                            >
+                                0 years
+                            </option>
+
+                            <option
+                                value="1"
+                                {% if selected_min_experience == "1" %}
+                                    selected
+                                {% endif %}
+                            >
+                                1 year
+                            </option>
+
+                            <option
+                                value="2"
+                                {% if selected_min_experience == "2" %}
+                                    selected
+                                {% endif %}
+                            >
+                                2 years
+                            </option>
+
+                            <option
+                                value="3"
+                                {% if selected_min_experience == "3" %}
+                                    selected
+                                {% endif %}
+                            >
+                                3 years
+                            </option>
+
+                            <option
+                                value="5"
+                                {% if selected_min_experience == "5" %}
+                                    selected
+                                {% endif %}
+                            >
+                                5 years
+                            </option>
+
+                            <option
+                                value="10"
+                                {% if selected_min_experience == "10" %}
+                                    selected
+                                {% endif %}
+                            >
+                                10 years
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- MAX EXPERIENCE -->
+
+                    <div class="col-md-4">
+
+                        <label class="form-label fw-semibold">
+                            Maximum Experience
+                        </label>
+
+                        <select
+                            name="max_experience"
+                            class="form-select"
+                        >
+
+                            <option value="">
+                                Any
+                            </option>
+
+                            <option
+                                value="0"
+                                {% if selected_max_experience == "0" %}
+                                    selected
+                                {% endif %}
+                            >
+                                0 years
+                            </option>
+
+                            <option
+                                value="1"
+                                {% if selected_max_experience == "1" %}
+                                    selected
+                                {% endif %}
+                            >
+                                1 year
+                            </option>
+
+                            <option
+                                value="2"
+                                {% if selected_max_experience == "2" %}
+                                    selected
+                                {% endif %}
+                            >
+                                2 years
+                            </option>
+
+                            <option
+                                value="3"
+                                {% if selected_max_experience == "3" %}
+                                    selected
+                                {% endif %}
+                            >
+                                3 years
+                            </option>
+
+                            <option
+                                value="5"
+                                {% if selected_max_experience == "5" %}
+                                    selected
+                                {% endif %}
+                            >
+                                5 years
+                            </option>
+
+                            <option
+                                value="10"
+                                {% if selected_max_experience == "10" %}
+                                    selected
+                                {% endif %}
+                            >
+                                10 years
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- SEARCH BUTTON -->
+
+                    <div class="col-md-4 d-flex align-items-end">
+
+                        <button
+                            type="submit"
+                            class="btn btn-dark w-100"
+                        >
+                            Search Jobs
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+
+        <!-- ==================================================
+             RESULT INFORMATION
+        =================================================== -->
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+
+            <p class="text-muted mb-0">
+
+                {% if search %}
+
+                    Results for
+                    "<strong>{{ search }}</strong>"
+
+                {% else %}
+
+                    Latest opportunities
+
+                {% endif %}
+
+            </p>
+
+
+            <span class="text-muted">
+
+                {{ jobs|length }}
+                job{{ jobs|length|pluralize }}
+
+            </span>
+
+        </div>
+
+
+        <!-- ==================================================
+             JOB LIST
+        =================================================== -->
+
+        <div class="row g-4">
+
+
+            {% for job in jobs %}
+
+            <div class="col-12">
+
+                <div class="job-card">
+
+                    <div class="row align-items-center">
+
+
+                        <!-- JOB INFORMATION -->
+
+                        <div class="col-lg-8">
+
+                            <div class="mb-2">
+
+                                <span class="badge bg-light text-dark border">
+                                    {{ job.get_job_type_display }}
+                                </span>
+
+                                {% if job.degree %}
+
+                                <span class="badge bg-light text-dark border ms-1">
+                                    {{ job.get_degree_display }}
+                                </span>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <h4 class="fw-bold mb-1">
+                                {{ job.title }}
+                            </h4>
+
+
+                            <p class="mb-2">
+                                {{ job.organization }}
+                            </p>
+
+
+                            <div class="text-muted small">
+
+
+                                <!-- LOCATION -->
+
+                                <span class="me-3">
+                                    📍 {{ job.location }}
+                                </span>
+
+
+                                <!-- EXPERIENCE -->
+
+                                {% if job.min_experience != None or job.max_experience != None %}
+
+                                <span class="me-3">
+
+                                    👤
+
+                                    {% if job.min_experience != None %}
+                                        {{ job.min_experience }}
+                                    {% else %}
+                                        0
+                                    {% endif %}
+
+                                    -
+
+                                    {% if job.max_experience != None %}
+                                        {{ job.max_experience }}
+                                    {% else %}
+                                        +
+                                    {% endif %}
+
+                                    years
+
+                                </span>
+
+                                {% endif %}
+
+
+                                <!-- SALARY -->
+
+                                {% if job.salary %}
+
+                                <span>
+                                    💰 {{ job.salary }}
+                                </span>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- JOB ACTION -->
+
+                        <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
+
+
+                            {% if job.last_date %}
+
+                            <p class="small text-muted mb-2">
+
+                                Apply by
+                                {{ job.last_date|date:"M d, Y" }}
+
+                            </p>
+
+                            {% endif %}
+
+
+                            <a
+                                href="{% url 'jobs:job_detail' job.id %}"
+                                class="btn btn-dark"
+                            >
+                                View Job
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            {% empty %}
+
+
+            <!-- ==================================================
+                 NO JOBS
+            =================================================== -->
+
+            <div class="col-12">
+
+                <div class="empty-jobs text-center py-5">
+
+                    <div class="empty-icon">
+                        🔎
+                    </div>
+
+                    <h4 class="fw-bold mt-3">
+                        No jobs found
+                    </h4>
+
+                    <p class="text-muted">
+                        Try changing your search or filters.
+                    </p>
+
+                    <a
+                        href="{% url 'jobs:job_list' %}"
+                        class="btn btn-outline-dark"
+                    >
+                        Clear Filters
+                    </a>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

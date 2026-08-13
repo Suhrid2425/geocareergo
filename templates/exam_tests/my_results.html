@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+
+{% block title %}
+My Results | GeoCareerGo
+{% endblock %}
+
+
+{% block content %}
+
+<section class="py-5">
+
+    <div class="container">
+
+        <!-- HEADER -->
+
+        <div class="text-center mb-5">
+
+            <span class="badge bg-light text-dark border mb-3">
+                MY RESULTS
+            </span>
+
+            <h1 class="fw-bold">
+                Test History
+            </h1>
+
+            <p class="text-muted">
+                Review your previous test attempts and scores.
+            </p>
+
+        </div>
+
+
+        <!-- RESULTS -->
+
+        {% for attempt in attempts %}
+
+        <div class="feature-card mb-3">
+
+            <div class="row align-items-center">
+
+
+                <!-- TEST -->
+
+                <div class="col-lg-4">
+
+                    <h5 class="fw-bold mb-1">
+                        {{ attempt.test.title }}
+                    </h5>
+
+                    <small class="text-muted">
+
+                        {{ attempt.test.get_category_display }}
+
+                        {% if attempt.submitted_at %}
+                            •
+                            {{ attempt.submitted_at|date:"d M Y, h:i A" }}
+                        {% endif %}
+
+                    </small>
+
+                </div>
+
+
+                <!-- SCORE -->
+
+                <div class="col-6 col-lg-2 mt-3 mt-lg-0">
+
+                    <small class="text-muted d-block">
+                        Score
+                    </small>
+
+                    <strong>
+                        {{ attempt.score }}
+                        /
+                        {{ attempt.test.total_marks }}
+                    </strong>
+
+                </div>
+
+
+                <!-- PERCENTAGE -->
+
+                <div class="col-6 col-lg-2 mt-3 mt-lg-0">
+
+                    <small class="text-muted d-block">
+                        Percentage
+                    </small>
+
+                    <strong>
+                        {{ attempt.percentage|floatformat:2 }}%
+                    </strong>
+
+                </div>
+
+
+                <!-- STATUS -->
+
+                <div class="col-6 col-lg-2 mt-3 mt-lg-0">
+
+                    <span class="badge bg-success">
+                        Completed
+                    </span>
+
+                </div>
+
+
+                <!-- VIEW -->
+
+                <div class="col-6 col-lg-2 text-lg-end mt-3 mt-lg-0">
+
+                    <a
+                        href="{% url 'exam_tests:test_result' attempt.id %}"
+                        class="btn btn-outline-dark"
+                    >
+                        View Result
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        {% empty %}
+
+
+        <!-- NO RESULTS -->
+
+        <div class="feature-card text-center py-5">
+
+            <div class="feature-icon">
+                📝
+            </div>
+
+            <h4 class="fw-bold mt-3">
+                No Test Attempts Yet
+            </h4>
+
+            <p class="text-muted">
+                Complete your first free test to see your result here.
+            </p>
+
+            <a
+                href="{% url 'exam_tests:test_home' %}"
+                class="btn btn-dark mt-2"
+            >
+                Browse Tests
+            </a>
+
+        </div>
+
+
+        {% endfor %}
+
+
+    </div>
+
+</section>
+
+{% endblock %}

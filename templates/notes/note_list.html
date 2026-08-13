@@ -1,0 +1,584 @@
+{% extends "base.html" %}
+
+{% block title %}
+Notes & Preparation | GeoCareerGo
+{% endblock %}
+
+{% block content %}
+
+<section class="py-5">
+
+    <div class="container">
+
+        <!-- =========================
+             HEADER
+        ========================== -->
+
+        <div class="text-center mb-5">
+
+            <span class="badge bg-light text-dark border mb-3">
+                GATE • JAM • PSU • Subjects
+            </span>
+
+            <h1 class="fw-bold">
+                Notes & Preparation
+            </h1>
+
+            <p class="text-muted">
+                Study materials and preparation resources
+                for Geology, GIS and Earth Science.
+            </p>
+
+        </div>
+
+
+        <!-- =========================
+             CATEGORY CARDS
+        ========================== -->
+
+        <div class="row g-4 mb-5">
+
+            <!-- GATE -->
+
+            <div class="col-md-6 col-lg-3">
+
+                <a
+                    href="{% url 'notes:note_list' %}?category=gate"
+                    class="text-decoration-none text-dark"
+                >
+
+                    <div class="feature-card text-center h-100">
+
+                        <div class="feature-icon">
+                            🎯
+                        </div>
+
+                        <h5>
+                            GATE
+                        </h5>
+
+                        <p class="text-muted small mb-0">
+                            GATE preparation and study material.
+                        </p>
+
+                    </div>
+
+                </a>
+
+            </div>
+
+
+            <!-- JAM -->
+
+            <div class="col-md-6 col-lg-3">
+
+                <a
+                    href="{% url 'notes:note_list' %}?category=jam"
+                    class="text-decoration-none text-dark"
+                >
+
+                    <div class="feature-card text-center h-100">
+
+                        <div class="feature-icon">
+                            🎓
+                        </div>
+
+                        <h5>
+                            JAM
+                        </h5>
+
+                        <p class="text-muted small mb-0">
+                            IIT JAM preparation resources.
+                        </p>
+
+                    </div>
+
+                </a>
+
+            </div>
+
+
+            <!-- PSU -->
+
+            <div class="col-md-6 col-lg-3">
+
+                <a
+                    href="{% url 'notes:note_list' %}?category=psu"
+                    class="text-decoration-none text-dark"
+                >
+
+                    <div class="feature-card text-center h-100">
+
+                        <div class="feature-icon">
+                            🏢
+                        </div>
+
+                        <h5>
+                            PSU
+                        </h5>
+
+                        <p class="text-muted small mb-0">
+                            PSU exam preparation materials.
+                        </p>
+
+                    </div>
+
+                </a>
+
+            </div>
+
+
+            <!-- SUBJECTS -->
+
+            <div class="col-md-6 col-lg-3">
+
+                <a
+                    href="{% url 'notes:note_list' %}?category=subject"
+                    class="text-decoration-none text-dark"
+                >
+
+                    <div class="feature-card text-center h-100">
+
+                        <div class="feature-icon">
+                            📖
+                        </div>
+
+                        <h5>
+                            Subjects
+                        </h5>
+
+                        <p class="text-muted small mb-0">
+                            University and Earth Science notes.
+                        </p>
+
+                    </div>
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             SEARCH & FILTERS
+        ========================== -->
+
+        <div class="job-search-box mb-5">
+
+            <form method="GET">
+
+                <div class="row g-2">
+
+
+                    <!-- SEARCH -->
+
+                    <div class="col-lg-4">
+
+                        <input
+                            type="text"
+                            name="q"
+                            value="{{ search }}"
+                            class="form-control"
+                            placeholder="Search notes..."
+                        >
+
+                    </div>
+
+
+                    <!-- CATEGORY -->
+
+                    <div class="col-lg-2">
+
+                        <select
+                            name="category"
+                            class="form-select"
+                        >
+
+                            <option value="">
+                                Category
+                            </option>
+
+                            <option
+                                value="gate"
+                                {% if selected_category == "gate" %}selected{% endif %}
+                            >
+                                GATE
+                            </option>
+
+                            <option
+                                value="jam"
+                                {% if selected_category == "jam" %}selected{% endif %}
+                            >
+                                JAM
+                            </option>
+
+                            <option
+                                value="psu"
+                                {% if selected_category == "psu" %}selected{% endif %}
+                            >
+                                PSU
+                            </option>
+
+                            <option
+                                value="subject"
+                                {% if selected_category == "subject" %}selected{% endif %}
+                            >
+                                Subjects
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- SUBJECT -->
+
+                    <div class="col-lg-2">
+
+                        <select
+                            name="subject"
+                            class="form-select"
+                        >
+
+                            <option value="">
+                                Subject
+                            </option>
+
+                            {% for subject in subjects %}
+
+                            <option
+                                value="{{ subject.id }}"
+                                {% if selected_subject == subject.id|stringformat:"s" %}
+                                    selected
+                                {% endif %}
+                            >
+                                {{ subject.name }}
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- FREE / PREMIUM -->
+
+                    <div class="col-lg-2">
+
+                        <select
+                            name="access"
+                            class="form-select"
+                        >
+
+                            <option value="">
+                                All Resources
+                            </option>
+
+                            <option
+                                value="free"
+                                {% if selected_access == "free" %}selected{% endif %}
+                            >
+                                Free
+                            </option>
+
+                            <option
+                                value="paid"
+                                {% if selected_access == "paid" %}selected{% endif %}
+                            >
+                                Premium
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- FILTER BUTTON -->
+
+                    <div class="col-lg-2">
+
+                        <button
+                            type="submit"
+                            class="btn btn-dark w-100"
+                        >
+                            Filter
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+
+        <!-- =========================
+             LATEST RESOURCES HEADER
+        ========================== -->
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+
+            <div>
+
+                <h3 class="fw-bold mb-1">
+                    Latest Resources
+                </h3>
+
+                <p class="text-muted mb-0">
+                    Free and premium study materials.
+                </p>
+
+            </div>
+
+
+            <!-- TOTAL NUMBER OF RESOURCES -->
+
+            <span class="text-muted">
+
+                {{ page_obj.paginator.count }}
+                resource{{ page_obj.paginator.count|pluralize }}
+
+            </span>
+
+        </div>
+
+
+        <!-- =========================
+             NOTES
+        ========================== -->
+
+        <div class="row g-4">
+
+            {% for note in notes %}
+
+            <div class="col-md-6 col-lg-4">
+
+                <div class="feature-card h-100 d-flex flex-column">
+
+
+                    <!-- ACCESS BADGE -->
+
+                    <div>
+
+                        {% if note.access_type == "paid" %}
+
+                            <span class="badge bg-dark">
+                                PREMIUM
+                            </span>
+
+                        {% else %}
+
+                            <span class="badge bg-light text-dark border">
+                                FREE
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- TITLE -->
+
+                    <h4 class="mt-3">
+                        {{ note.title }}
+                    </h4>
+
+
+                    <!-- CATEGORY + SUBJECT -->
+
+                    <p class="text-muted mb-2">
+
+                        {{ note.get_category_display }}
+
+                        •
+
+                        {{ note.subject_name }}
+
+                    </p>
+
+
+                    <!-- DESCRIPTION -->
+
+                    {% if note.description %}
+
+                        <p class="text-muted small">
+
+                            {{ note.description|truncatewords:20 }}
+
+                        </p>
+
+                    {% else %}
+
+                        <p class="text-muted small">
+
+                            Study material for
+                            {{ note.subject_name }}.
+
+                        </p>
+
+                    {% endif %}
+
+
+                    <!-- BUTTON -->
+
+                    <div class="mt-auto pt-3">
+
+                        <a
+                            href="{% url 'notes:note_detail' note.id %}"
+                            class="btn btn-dark w-100"
+                        >
+
+                            {% if note.access_type == "paid" %}
+
+                                View Premium Note
+
+                            {% else %}
+
+                                View Note
+
+                            {% endif %}
+
+                        </a>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 NO RESULTS
+            ========================== -->
+
+            {% empty %}
+
+            <div class="col-12">
+
+                <div class="empty-jobs text-center py-5">
+
+                    <div class="empty-icon">
+                        📚
+                    </div>
+
+                    <h4 class="fw-bold mt-3">
+                        No resources found
+                    </h4>
+
+                    <p class="text-muted">
+                        Try another category or search term.
+                    </p>
+
+                    <a
+                        href="{% url 'notes:note_list' %}"
+                        class="btn btn-outline-dark"
+                    >
+                        View All Resources
+                    </a>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+
+        <!-- =========================
+             PAGINATION
+        ========================== -->
+
+        {% if page_obj.has_other_pages %}
+
+        <nav
+            class="mt-5"
+            aria-label="Notes pagination"
+        >
+
+            <ul class="pagination justify-content-center">
+
+
+                <!-- PREVIOUS -->
+
+                {% if page_obj.has_previous %}
+
+                <li class="page-item">
+
+                    <a
+                        class="page-link"
+                        href="?{% if search %}q={{ search|urlencode }}&{% endif %}{% if selected_category %}category={{ selected_category }}&{% endif %}{% if selected_subject %}subject={{ selected_subject }}&{% endif %}{% if selected_access %}access={{ selected_access }}&{% endif %}page={{ page_obj.previous_page_number }}"
+                    >
+                        Previous
+                    </a>
+
+                </li>
+
+                {% endif %}
+
+
+                <!-- PAGE NUMBERS -->
+
+                {% for num in page_obj.paginator.page_range %}
+
+                    {% if page_obj.number == num %}
+
+                    <li class="page-item active">
+
+                        <span class="page-link">
+                            {{ num }}
+                        </span>
+
+                    </li>
+
+                    {% else %}
+
+                    <li class="page-item">
+
+                        <a
+                            class="page-link"
+                            href="?{% if search %}q={{ search|urlencode }}&{% endif %}{% if selected_category %}category={{ selected_category }}&{% endif %}{% if selected_subject %}subject={{ selected_subject }}&{% endif %}{% if selected_access %}access={{ selected_access }}&{% endif %}page={{ num }}"
+                        >
+                            {{ num }}
+                        </a>
+
+                    </li>
+
+                    {% endif %}
+
+                {% endfor %}
+
+
+                <!-- NEXT -->
+
+                {% if page_obj.has_next %}
+
+                <li class="page-item">
+
+                    <a
+                        class="page-link"
+                        href="?{% if search %}q={{ search|urlencode }}&{% endif %}{% if selected_category %}category={{ selected_category }}&{% endif %}{% if selected_subject %}subject={{ selected_subject }}&{% endif %}{% if selected_access %}access={{ selected_access }}&{% endif %}page={{ page_obj.next_page_number }}"
+                    >
+                        Next
+                    </a>
+
+                </li>
+
+                {% endif %}
+
+            </ul>
+
+        </nav>
+
+        {% endif %}
+
+
+    </div>
+
+</section>
+
+{% endblock %}

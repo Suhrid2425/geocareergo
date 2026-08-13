@@ -1,0 +1,770 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ test.title }} | GeoCareerGo
+{% endblock %}
+
+
+{% block content %}
+
+<section class="py-4">
+
+    <div class="container">
+
+        <!-- ==================================================
+             HEADER
+        ================================================== -->
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+
+            <div>
+
+                <span class="badge bg-light text-dark border">
+                    {{ test.get_category_display }}
+                </span>
+
+                <h1 class="fw-bold mt-2 mb-1">
+                    {{ test.title }}
+                </h1>
+
+                <p class="text-muted mb-0">
+                    {{ questions|length }} Questions
+                    •
+                    {{ test.total_marks }} Marks
+                </p>
+
+            </div>
+
+
+            <!-- TIMER -->
+
+            <div
+                id="timer"
+                class="badge bg-dark fs-5 px-4 py-3"
+            >
+                Loading...
+            </div>
+
+        </div>
+
+
+        <!-- ==================================================
+             INSTRUCTIONS
+        ================================================== -->
+
+        <div class="alert alert-light border mb-4">
+
+            <strong>
+                Instructions:
+            </strong>
+
+            <ul class="mb-0 mt-2">
+
+                <li>
+                    Select one option for each question.
+                </li>
+
+                <li>
+                    You can move between questions using
+                    Previous / Next or the question palette.
+                </li>
+
+                <li>
+                    Your answers are saved while you navigate.
+                </li>
+
+                <li>
+                    Answers and explanations will be shown
+                    only after submission.
+                </li>
+
+                <li>
+                    The test will be submitted automatically
+                    when the timer reaches zero.
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <!-- ==================================================
+             MAIN LAYOUT
+        ================================================== -->
+
+        <div class="row g-4">
+
+
+            <!-- ==================================================
+                 QUESTIONS
+            ================================================== -->
+
+            <div class="col-lg-8">
+
+                <form
+                    id="test-form"
+                    method="POST"
+                    action="{% url 'exam_tests:submit_test' attempt.id %}"
+                >
+
+                    {% csrf_token %}
+
+
+                    {% for question in questions %}
+
+                    <div
+                        class="feature-card question-card mb-4"
+                        data-question="{{ forloop.counter0 }}"
+                    >
+
+
+                        <!-- QUESTION HEADER -->
+
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <h5 class="fw-bold mb-0">
+
+                                Question {{ forloop.counter }}
+
+                            </h5>
+
+
+                            <span class="badge bg-light text-dark border">
+
+                                {{ question.marks }}
+                                mark{{ question.marks|pluralize }}
+
+                            </span>
+
+                        </div>
+
+
+                        <!-- QUESTION -->
+
+                        <p class="mt-4 mb-4">
+
+                            {{ question.question_text }}
+
+                        </p>
+
+
+                        <!-- OPTION A -->
+
+                        <label
+                            class="d-block border rounded p-3 mb-2 option-label"
+                        >
+
+                            <input
+                                type="radio"
+                                name="question_{{ question.id }}"
+                                value="A"
+                                class="form-check-input me-2 answer-option"
+                                data-question="{{ forloop.counter0 }}"
+                            >
+
+                            <strong>A.</strong>
+                            {{ question.option_a }}
+
+                        </label>
+
+
+                        <!-- OPTION B -->
+
+                        <label
+                            class="d-block border rounded p-3 mb-2 option-label"
+                        >
+
+                            <input
+                                type="radio"
+                                name="question_{{ question.id }}"
+                                value="B"
+                                class="form-check-input me-2 answer-option"
+                                data-question="{{ forloop.counter0 }}"
+                            >
+
+                            <strong>B.</strong>
+                            {{ question.option_b }}
+
+                        </label>
+
+
+                        <!-- OPTION C -->
+
+                        <label
+                            class="d-block border rounded p-3 mb-2 option-label"
+                        >
+
+                            <input
+                                type="radio"
+                                name="question_{{ question.id }}"
+                                value="C"
+                                class="form-check-input me-2 answer-option"
+                                data-question="{{ forloop.counter0 }}"
+                            >
+
+                            <strong>C.</strong>
+                            {{ question.option_c }}
+
+                        </label>
+
+
+                        <!-- OPTION D -->
+
+                        <label
+                            class="d-block border rounded p-3 option-label"
+                        >
+
+                            <input
+                                type="radio"
+                                name="question_{{ question.id }}"
+                                value="D"
+                                class="form-check-input me-2 answer-option"
+                                data-question="{{ forloop.counter0 }}"
+                            >
+
+                            <strong>D.</strong>
+                            {{ question.option_d }}
+
+                        </label>
+
+
+                    </div>
+
+                    {% endfor %}
+
+
+                    <!-- ==================================================
+                         NAVIGATION
+                    ================================================== -->
+
+                    <div class="d-flex justify-content-between mb-4">
+
+                        <button
+                            type="button"
+                            id="previous-button"
+                            class="btn btn-outline-dark"
+                        >
+                            ← Previous
+                        </button>
+
+
+                        <button
+                            type="button"
+                            id="next-button"
+                            class="btn btn-dark"
+                        >
+                            Next →
+                        </button>
+
+                    </div>
+
+
+                    <!-- ==================================================
+                         SUBMIT
+                    ================================================== -->
+
+                    <div class="text-center mt-4">
+
+                        <button
+                            type="submit"
+                            id="submit-button"
+                            class="btn btn-dark btn-lg px-5"
+                        >
+                            Submit Full Paper
+                        </button>
+
+                        <p class="text-muted small mt-2">
+                            Answers and explanations will be shown
+                            after submission.
+                        </p>
+
+                    </div>
+
+
+                </form>
+
+            </div>
+
+
+            <!-- ==================================================
+                 QUESTION PALETTE
+            ================================================== -->
+
+            <div class="col-lg-4">
+
+                <div
+                    class="feature-card"
+                    style="position: sticky; top: 20px;"
+                >
+
+                    <h5 class="fw-bold mb-2">
+                        Question Palette
+                    </h5>
+
+
+                    <p class="text-muted small">
+                        Click a number to jump directly to a question.
+                    </p>
+
+
+                    <div
+                        id="question-palette"
+                        class="d-flex flex-wrap gap-2"
+                    >
+
+                        {% for question in questions %}
+
+                        <button
+                            type="button"
+                            class="btn btn-outline-dark question-number"
+                            data-question="{{ forloop.counter0 }}"
+                        >
+                            {{ forloop.counter }}
+                        </button>
+
+                        {% endfor %}
+
+                    </div>
+
+
+                    <hr>
+
+
+                    <!-- PROGRESS -->
+
+                    <div class="mb-3">
+
+                        <div class="d-flex justify-content-between">
+
+                            <small class="text-muted">
+                                Progress
+                            </small>
+
+                            <small
+                                id="progress-text"
+                                class="fw-bold"
+                            >
+                                0 / {{ questions|length }}
+                            </small>
+
+                        </div>
+
+
+                        <div
+                            class="progress mt-2"
+                            style="height: 7px;"
+                        >
+
+                            <div
+                                id="progress-bar"
+                                class="progress-bar"
+                                role="progressbar"
+                                style="width: 0%;"
+                            ></div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- LEGEND -->
+
+                    <div class="small">
+
+                        <div class="mb-2">
+
+                            <span
+                                class="d-inline-block border rounded"
+                                style="width:16px;height:16px;"
+                            ></span>
+
+                            <span class="ms-2">
+                                Unanswered
+                            </span>
+
+                        </div>
+
+
+                        <div class="mb-2">
+
+                            <span
+                                class="d-inline-block bg-dark rounded"
+                                style="width:16px;height:16px;"
+                            ></span>
+
+                            <span class="ms-2">
+                                Answered
+                            </span>
+
+                        </div>
+
+
+                        <div>
+
+                            <span
+                                class="d-inline-block bg-secondary rounded"
+                                style="width:16px;height:16px;"
+                            ></span>
+
+                            <span class="ms-2">
+                                Current Question
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ==================================================
+     JAVASCRIPT
+================================================== -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const questionCards =
+        document.querySelectorAll(".question-card");
+
+    const questionNumbers =
+        document.querySelectorAll(".question-number");
+
+    const answerOptions =
+        document.querySelectorAll(".answer-option");
+
+    const previousButton =
+        document.getElementById("previous-button");
+
+    const nextButton =
+        document.getElementById("next-button");
+
+    const testForm =
+        document.getElementById("test-form");
+
+    const submitButton =
+        document.getElementById("submit-button");
+
+    const timerElement =
+        document.getElementById("timer");
+
+    const progressText =
+        document.getElementById("progress-text");
+
+    const progressBar =
+        document.getElementById("progress-bar");
+
+
+    let currentQuestion = 0;
+    let submitted = false;
+
+
+    function showQuestion(index) {
+
+        if (questionCards.length === 0) {
+            return;
+        }
+
+        if (index < 0) {
+            index = 0;
+        }
+
+        if (index >= questionCards.length) {
+            index = questionCards.length - 1;
+        }
+
+        currentQuestion = index;
+
+        questionCards.forEach(function (card, i) {
+
+            if (i === currentQuestion) {
+                card.style.display = "block";
+            } else {
+                card.style.display = "none";
+            }
+
+        });
+
+        updateQuestionPalette();
+
+        previousButton.disabled =
+            currentQuestion === 0;
+
+        nextButton.disabled =
+            currentQuestion === questionCards.length - 1;
+    }
+
+
+    function updateQuestionPalette() {
+
+        questionCards.forEach(function (card, index) {
+
+            const button = questionNumbers[index];
+
+            const checked =
+                card.querySelector(
+                    "input[type='radio']:checked"
+                );
+
+            button.classList.remove(
+                "btn-dark",
+                "btn-outline-dark",
+                "btn-secondary"
+            );
+
+            if (index === currentQuestion) {
+
+                button.classList.add(
+                    "btn-secondary"
+                );
+
+            } else if (checked) {
+
+                button.classList.add(
+                    "btn-dark"
+                );
+
+            } else {
+
+                button.classList.add(
+                    "btn-outline-dark"
+                );
+            }
+
+        });
+
+        updateProgress();
+    }
+
+
+    function updateProgress() {
+
+        let answered = 0;
+
+        questionCards.forEach(function (card) {
+
+            const checked =
+                card.querySelector(
+                    "input[type='radio']:checked"
+                );
+
+            if (checked) {
+                answered++;
+            }
+
+        });
+
+        const total = questionCards.length;
+
+        const percentage =
+            total > 0
+                ? (answered / total) * 100
+                : 0;
+
+        progressText.textContent =
+            answered + " / " + total;
+
+        progressBar.style.width =
+            percentage + "%";
+    }
+
+
+    answerOptions.forEach(function (option) {
+
+        option.addEventListener(
+            "change",
+            function () {
+                updateQuestionPalette();
+            }
+        );
+
+    });
+
+
+    nextButton.addEventListener(
+        "click",
+        function () {
+            showQuestion(currentQuestion + 1);
+        }
+    );
+
+
+    previousButton.addEventListener(
+        "click",
+        function () {
+            showQuestion(currentQuestion - 1);
+        }
+    );
+
+
+    questionNumbers.forEach(function (button) {
+
+        button.addEventListener(
+            "click",
+            function () {
+
+                const index =
+                    parseInt(
+                        button.dataset.question
+                    );
+
+                showQuestion(index);
+            }
+        );
+
+    });
+
+
+    testForm.addEventListener(
+        "submit",
+        function (event) {
+
+            if (submitted) {
+
+                event.preventDefault();
+                return;
+
+            }
+
+            const unanswered =
+                Array.from(questionCards)
+                    .filter(function (card) {
+
+                        return !card.querySelector(
+                            "input[type='radio']:checked"
+                        );
+
+                    }).length;
+
+
+            if (unanswered > 0) {
+
+                const confirmed = confirm(
+                    "You have " +
+                    unanswered +
+                    " unanswered question(s). Are you sure you want to submit?"
+                );
+
+                if (!confirmed) {
+
+                    event.preventDefault();
+                    return;
+
+                }
+
+            } else {
+
+                const confirmed = confirm(
+                    "Are you sure you want to submit the complete paper?"
+                );
+
+                if (!confirmed) {
+
+                    event.preventDefault();
+                    return;
+
+                }
+            }
+
+
+            submitted = true;
+
+            submitButton.disabled = true;
+
+            submitButton.textContent =
+                "Submitting...";
+
+        }
+    );
+
+
+    let totalSeconds =
+    Number("{{ test.duration_minutes }}") * 60;
+
+    let timer;
+
+
+    function updateTimer() {
+
+        const minutes =
+            Math.floor(totalSeconds / 60);
+
+        const seconds =
+            totalSeconds % 60;
+
+
+        timerElement.textContent =
+            String(minutes).padStart(2, "0")
+            + ":"
+            + String(seconds).padStart(2, "0");
+
+
+        if (totalSeconds <= 300) {
+
+            timerElement.classList.remove(
+                "bg-dark"
+            );
+
+            timerElement.classList.add(
+                "bg-danger"
+            );
+        }
+
+
+        if (totalSeconds <= 0) {
+
+            clearInterval(timer);
+
+            submitted = true;
+
+            submitButton.disabled = true;
+
+            submitButton.textContent =
+                "Submitting...";
+
+            alert(
+                "Time is over. Your test will be submitted automatically."
+            );
+
+            testForm.submit();
+
+            return;
+        }
+
+
+        totalSeconds--;
+
+    }
+
+
+    updateTimer();
+
+    timer = setInterval(
+        updateTimer,
+        1000
+    );
+
+
+    // INITIAL STATE
+
+    showQuestion(0);
+
+    updateQuestionPalette();
+
+});
+
+</script>
+
+{% endblock %}
+
+

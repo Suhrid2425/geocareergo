@@ -1,0 +1,229 @@
+{% extends "base.html" %}
+
+{% block title %}
+My Profile | GeoCareerGo
+{% endblock %}
+
+{% block content %}
+
+<section class="py-5">
+
+    <div class="container">
+
+        <div
+            class="mx-auto"
+            style="max-width: 800px;"
+        >
+
+            <!-- PROFILE HEADER -->
+
+            <div class="text-center mb-5">
+
+                <span class="badge bg-light text-dark border mb-3">
+                    MY PROFILE
+                </span>
+
+                <h1 class="fw-bold">
+    {{ profile.full_name|default:user.username }}
+</h1>
+
+                <p class="text-muted">
+                    {{ user.email }}
+                </p>
+
+            </div>
+
+
+            <!-- PROFILE CARD -->
+
+            <div class="feature-card">
+
+                <!-- EDUCATION -->
+
+                <h4 class="fw-bold mb-4">
+                    Education
+                </h4>
+
+
+                <div class="row g-4">
+
+                    <!-- DEGREE -->
+
+                    <div class="col-md-6">
+
+                        <small class="text-muted">
+                            Degree
+                        </small>
+
+                        <p class="fw-semibold mb-0">
+                            {{ profile.get_degree_display|default:"Not added" }}
+                        </p>
+
+                    </div>
+
+
+                    <!-- BRANCH -->
+
+                    <div class="col-md-6">
+
+                        <small class="text-muted">
+                            Branch / Subject
+                        </small>
+
+                        <p class="fw-semibold mb-0">
+                            {{ profile.branch|default:"Not added" }}
+                        </p>
+
+                    </div>
+
+
+                    <!-- COLLEGE -->
+
+                    <div class="col-12">
+
+                        <small class="text-muted">
+                            College / University
+                        </small>
+
+                        <p class="fw-semibold mb-0">
+                            {{ profile.college|default:"Not added" }}
+                        </p>
+
+                    </div>
+
+
+                    <!-- YEAR -->
+
+                    <div class="col-md-6">
+
+                        <small class="text-muted">
+                            Current Year
+                        </small>
+
+                        <p class="fw-semibold mb-0">
+                            {{ profile.get_year_display|default:"Not added" }}
+                        </p>
+
+                    </div>
+
+
+                    <!-- SEMESTER -->
+
+                    <div class="col-md-6">
+
+                        <small class="text-muted">
+                            Current Semester
+                        </small>
+
+                        <p class="fw-semibold mb-0">
+                            {{ profile.get_semester_display|default:"Not added" }}
+                        </p>
+
+                    </div>
+
+
+                    <!-- GRADUATION -->
+
+                    <div class="col-md-6">
+
+                        <small class="text-muted">
+                            Graduation Year
+                        </small>
+
+                        <p class="fw-semibold mb-0">
+                            {{ profile.graduation_year|default:"Not added" }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <hr class="my-4">
+
+
+                <!-- CAREER -->
+
+                <h4 class="fw-bold mb-4">
+                    Career & Preparation
+                </h4>
+
+
+                <div class="row g-4">
+
+                    <!-- EXAM -->
+
+                    <div class="col-md-6">
+
+                        <small class="text-muted">
+                            Exam Interest
+                        </small>
+
+                        <p class="fw-semibold mb-0">
+                            {{ profile.exam_interest|default:"Not added" }}
+                        </p>
+
+                    </div>
+
+
+                    <!-- CAREER -->
+
+                    <div class="col-md-6">
+
+                        <small class="text-muted">
+                            Career Interest
+                        </small>
+
+                        <p class="fw-semibold mb-0">
+                            {{ profile.career_interest|default:"Not added" }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ACTIONS -->
+
+                <div class="mt-5 d-flex flex-wrap gap-2">
+
+                    <!-- EDIT -->
+
+                    <a
+                        href="{% url 'accounts:complete_profile' %}"
+                        class="btn btn-dark"
+                    >
+                        Edit Profile
+                    </a>
+
+
+                    <!-- LOGOUT -->
+
+                    <a
+                        href="{% url 'accounts:logout' %}"
+                        class="btn btn-outline-dark"
+                    >
+                        Logout
+                    </a>
+
+
+                    <!-- HOME -->
+
+                    <a
+                        href="{% url 'core:home' %}"
+                        class="btn btn-outline-dark"
+                    >
+                        Back to Home
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

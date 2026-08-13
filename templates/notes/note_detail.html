@@ -1,0 +1,213 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ note.title }} | GeoCareerGo
+{% endblock %}
+
+{% block content %}
+
+<section class="py-5">
+
+    <div class="container">
+
+        <!-- Back -->
+
+        <a
+            href="{% url 'notes:note_list' %}"
+            class="text-decoration-none"
+        >
+            ← Back to Notes
+        </a>
+
+
+        <div class="row mt-4">
+
+            <!-- =========================
+                 MAIN CONTENT
+            ========================== -->
+
+            <div class="col-lg-8">
+
+                <!-- Access Badge -->
+
+                {% if note.access_type == "paid" %}
+
+                    <span class="badge bg-dark mb-3">
+                        PREMIUM
+                    </span>
+
+                {% else %}
+
+                    <span class="badge bg-light text-dark border mb-3">
+                        FREE
+                    </span>
+
+                {% endif %}
+
+
+                <!-- Title -->
+
+                <h1 class="fw-bold">
+                    {{ note.title }}
+                </h1>
+
+
+                <!-- Category + Subject -->
+
+                <p class="text-muted mt-2">
+
+                    {{ note.get_category_display }}
+
+                    •
+
+                    {{ note.subject_name }}
+
+                </p>
+
+
+                <hr>
+
+
+                <!-- Description -->
+
+                <h4 class="mt-4">
+                    About this resource
+                </h4>
+
+
+                {% if note.description %}
+
+                    <div class="text-muted">
+
+                        {{ note.description|linebreaks }}
+
+                    </div>
+
+                {% else %}
+
+                    <p class="text-muted">
+                        No description available.
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- =========================
+                 RESOURCE INFORMATION
+            ========================== -->
+
+            <div class="col-lg-4">
+
+                <div class="feature-card">
+
+                    <h5 class="fw-bold">
+                        Resource Information
+                    </h5>
+
+
+                    <!-- Category -->
+
+                    <p class="mt-3">
+
+                        <strong>
+                            Category
+                        </strong>
+
+                        <br>
+
+                        {{ note.get_category_display }}
+
+                    </p>
+
+
+                    <!-- Subject -->
+
+                    <p>
+
+                        <strong>
+                            Subject
+                        </strong>
+
+                        <br>
+
+                        {{ note.subject_name }}
+
+                    </p>
+
+
+                    <!-- =========================
+                         FREE RESOURCE
+                    ========================== -->
+
+                    {% if note.access_type == "free" %}
+
+                        <span class="badge bg-light text-dark border">
+                            Free Resource
+                        </span>
+
+
+                        <a
+                            href="{% url 'notes:download_note' note.id %}"
+                            class="btn btn-dark w-100 mt-3"
+                        >
+                            View / Download PDF
+                        </a>
+
+
+                        <small class="text-muted d-block mt-2">
+                            This resource is free for all users.
+                        </small>
+
+
+                    <!-- =========================
+                         PREMIUM RESOURCE
+                    ========================== -->
+
+                    {% else %}
+
+                        <span class="badge bg-dark">
+                            Premium
+                        </span>
+
+
+                        <p class="mt-3 mb-0">
+
+                            <strong>
+                                Price
+                            </strong>
+
+                        </p>
+
+
+                        <h3 class="fw-bold">
+                            ₹{{ note.price }}
+                        </h3>
+
+
+                        <a
+                            href="{% url 'notes:download_note' note.id %}"
+                            class="btn btn-dark w-100 mt-2"
+                        >
+                            Access Premium Note
+                        </a>
+
+
+                        <small class="text-muted d-block mt-2">
+                            Purchase is required to access this PDF.
+                        </small>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
