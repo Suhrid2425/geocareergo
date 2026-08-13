@@ -10,19 +10,15 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
-import os
 from pathlib import Path
+import os
 
 from dotenv import load_dotenv
 import dj_database_url
 
-# ==================================================
-# BASE DIRECTORY
-# ==================================================
-
 BASE_DIR = Path(__file__).resolve().parent.parent
-load_dotenv(BASE_DIR / ".env")
 
+load_dotenv(BASE_DIR / ".env")
 
 # ==================================================
 # SECURITY
@@ -34,12 +30,20 @@ SECRET_KEY = os.environ.get(
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
     "geocareergo.vercel.app",
     ".vercel.app",
+     "geocareergo.com",
+    "www.geocareergo.com",
 ]
+
 CSRF_TRUSTED_ORIGINS = [
     "https://geocareergo.vercel.app",
+    "https://geocareergo.com",
+    "https://www.geocareergo.com",
 ]
+
 
 
 # ==================================================
@@ -137,10 +141,9 @@ WSGI_APPLICATION = "config.wsgi.application"
 # DATABASE
 # ==================================================
 
-DATABASE_URL = os.environ.get("DATABASE_POSTGRES_URL")
+DATABASE_URL = os.environ.get("DATABASE_URL")
 
 if DATABASE_URL:
-
     DATABASES = {
         "default": dj_database_url.parse(
             DATABASE_URL,
@@ -148,16 +151,13 @@ if DATABASE_URL:
             ssl_require=True,
         )
     }
-
 else:
-
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
             "NAME": BASE_DIR / "db.sqlite3",
         }
     }
-
 # ==================================================
 # PASSWORD VALIDATION
 # ==================================================
