@@ -33,7 +33,13 @@ SECRET_KEY = os.environ.get(
 )
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "geocareergo.vercel.app",
+    ".vercel.app",
+]
+CSRF_TRUSTED_ORIGINS = [
+    "https://geocareergo.vercel.app",
+]
 
 
 # ==================================================
