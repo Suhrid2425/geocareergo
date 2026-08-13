@@ -137,7 +137,7 @@ WSGI_APPLICATION = "config.wsgi.application"
 # DATABASE
 # ==================================================
 
-DATABASE_URL = os.environ.get("DATABASE_URL")
+DATABASE_URL = os.environ.get("DATABASE_POSTGRES_URL")
 
 if DATABASE_URL:
 
