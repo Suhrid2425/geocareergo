@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+Disallow: /admin/
+Disallow: /accounts/
+Disallow: /tests/
+Disallow: /jobs/company/
+
+Sitemap: https://geocareergo.com/sitemap.xml

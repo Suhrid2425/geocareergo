@@ -3,16 +3,16 @@ from django.contrib import admin
 from .models import Job, JobApplication
 
 
+# ==========================================================
+# JOB
+# ==========================================================
+
 @admin.register(Job)
 class JobAdmin(admin.ModelAdmin):
 
-    # ==================================================
-    # JOB LIST
-    # ==================================================
-
     list_display = (
         "title",
-        "organization",
+        "company",
         "job_type",
         "degree",
         "min_experience",
@@ -21,34 +21,24 @@ class JobAdmin(admin.ModelAdmin):
         "location",
         "last_date",
         "is_active",
+        "is_trending",
     )
-
-    # ==================================================
-    # FILTERS
-    # ==================================================
 
     list_filter = (
         "job_type",
         "degree",
         "application_type",
         "is_active",
+        "is_trending",
     )
-
-    # ==================================================
-    # SEARCH
-    # ==================================================
 
     search_fields = (
         "title",
-        "organization",
+        "company__company_name",
         "location",
         "qualification",
         "description",
     )
-
-    # ==================================================
-    # FORM ORGANIZATION
-    # ==================================================
 
     fieldsets = (
 
@@ -57,7 +47,7 @@ class JobAdmin(admin.ModelAdmin):
             {
                 "fields": (
                     "title",
-                    "organization",
+                    "company",
                     "location",
                     "job_type",
                 )
@@ -81,7 +71,7 @@ class JobAdmin(admin.ModelAdmin):
                     "min_experience",
                     "max_experience",
                 )
-            }
+            },
         ),
 
         (
@@ -91,7 +81,7 @@ class JobAdmin(admin.ModelAdmin):
                     "salary",
                     "description",
                 )
-            }
+            },
         ),
 
         (
@@ -101,7 +91,7 @@ class JobAdmin(admin.ModelAdmin):
                     "application_type",
                     "application_url",
                 )
-            }
+            },
         ),
 
         (
@@ -110,10 +100,10 @@ class JobAdmin(admin.ModelAdmin):
                 "fields": (
                     "last_date",
                     "is_active",
+                    "is_trending",
                 )
-            }
+            },
         ),
-
     )
 
     ordering = (
@@ -121,9 +111,9 @@ class JobAdmin(admin.ModelAdmin):
     )
 
 
-# ==================================================
+# ==========================================================
 # JOB APPLICATION
-# ==================================================
+# ==========================================================
 
 @admin.register(JobApplication)
 class JobApplicationAdmin(admin.ModelAdmin):
@@ -142,7 +132,7 @@ class JobApplicationAdmin(admin.ModelAdmin):
 
     search_fields = (
         "job__title",
-        "job__organization",
+        "job__company__company_name",
         "applicant__username",
         "applicant__email",
     )

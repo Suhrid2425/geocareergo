@@ -1,0 +1,409 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <!-- HEADER -->
+
+    <div class="mb-4">
+
+        <a
+            href="{% url 'jobs:company_jobs' %}"
+            class="text-decoration-none"
+        >
+            ← Back to My Jobs
+        </a>
+
+        <h2 class="fw-bold mt-3 mb-1">
+            Applications
+        </h2>
+
+        <p class="text-muted mb-0">
+            {{ job.title }} · {{ job.location }}
+        </p>
+
+    </div>
+
+
+    <!-- =====================================================
+         STATISTICS
+    ====================================================== -->
+
+    <div class="row g-3 mb-4">
+
+        <div class="col-6 col-md">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <small class="text-muted">
+                        Total
+                    </small>
+
+                    <h3 class="fw-bold mb-0">
+                        {{ total_count }}
+                    </h3>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-6 col-md">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <small class="text-muted">
+                        Submitted
+                    </small>
+
+                    <h3 class="fw-bold mb-0">
+                        {{ submitted_count }}
+                    </h3>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-6 col-md">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <small class="text-muted">
+                        Reviewing
+                    </small>
+
+                    <h3 class="fw-bold mb-0">
+                        {{ reviewing_count }}
+                    </h3>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-6 col-md">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <small class="text-muted">
+                        Shortlisted
+                    </small>
+
+                    <h3 class="fw-bold mb-0">
+                        {{ shortlisted_count }}
+                    </h3>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-6 col-md">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <small class="text-muted">
+                        Selected
+                    </small>
+
+                    <h3 class="fw-bold mb-0">
+                        {{ selected_count }}
+                    </h3>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-6 col-md">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <small class="text-muted">
+                        Rejected
+                    </small>
+
+                    <h3 class="fw-bold mb-0">
+                        {{ rejected_count }}
+                    </h3>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         SEARCH + FILTER
+    ====================================================== -->
+
+    <div class="card border-0 shadow-sm mb-4">
+
+        <div class="card-body">
+
+            <form method="get">
+
+                <div class="row g-2">
+
+                    <div class="col-md-7">
+
+                        <input
+                            type="text"
+                            name="search"
+                            value="{{ search }}"
+                            class="form-control"
+                            placeholder="Search candidate name or email..."
+                        >
+
+                    </div>
+
+
+                    <div class="col-md-3">
+
+                        <select
+                            name="status"
+                            class="form-select"
+                        >
+
+                            <option value="">
+                                All Statuses
+                            </option>
+
+                            {% for value, label in status_choices %}
+
+                                <option
+                                    value="{{ value }}"
+                                    {% if selected_status == value %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    {{ label }}
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="col-md-2 d-grid">
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary"
+                        >
+                            Search
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         APPLICATIONS
+    ====================================================== -->
+
+    {% if applications %}
+
+        <div class="row g-4">
+
+            {% for application in applications %}
+
+                <div class="col-12">
+
+                    <div class="card border-0 shadow-sm">
+
+                        <div class="card-body p-4">
+
+                            <div class="row g-4">
+
+
+                                <!-- CANDIDATE -->
+
+                                <div class="col-lg-4">
+
+                                    <div class="d-flex align-items-center mb-3">
+
+                                        <div
+                                            class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-3"
+                                            style="width:50px;height:50px;"
+                                        >
+                                            {{ application.applicant.username|first|upper }}
+                                        </div>
+
+                                        <div>
+
+                                            <h5 class="fw-bold mb-0">
+
+                                                {% if application.applicant.get_full_name %}
+                                                    {{ application.applicant.get_full_name }}
+                                                {% else %}
+                                                    {{ application.applicant.username }}
+                                                {% endif %}
+
+                                            </h5>
+
+                                            <small class="text-muted">
+                                                {{ application.applicant.email }}
+                                            </small>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <p class="small mb-2">
+                                        <strong>Phone:</strong>
+                                        {{ application.phone }}
+                                    </p>
+
+                                    <p class="small text-muted mb-0">
+                                        Applied:
+                                        {{ application.applied_at|date:"d M Y, h:i A" }}
+                                    </p>
+
+                                </div>
+
+
+                                <!-- COVER MESSAGE -->
+
+                                <div class="col-lg-5">
+
+                                    <h6 class="fw-bold">
+                                        Cover Message
+                                    </h6>
+
+                                    {% if application.cover_message %}
+
+                                        <p class="text-muted small mb-0">
+                                            {{ application.cover_message }}
+                                        </p>
+
+                                    {% else %}
+
+                                        <p class="text-muted small mb-0">
+                                            No cover message provided.
+                                        </p>
+
+                                    {% endif %}
+
+                                </div>
+
+
+                                <!-- STATUS + RESUME -->
+
+                                <div class="col-lg-3">
+
+                                    <form
+                                        method="post"
+                                        action="{% url 'jobs:update_application_status' application.id %}"
+                                    >
+
+                                        {% csrf_token %}
+
+                                        <label class="form-label small fw-bold">
+                                            Application Status
+                                        </label>
+
+                                        <select
+                                            name="status"
+                                            class="form-select form-select-sm mb-2"
+                                        >
+
+                                            {% for value, label in status_choices %}
+
+                                                <option
+                                                    value="{{ value }}"
+                                                    {% if application.status == value %}
+                                                        selected
+                                                    {% endif %}
+                                                >
+                                                    {{ label }}
+                                                </option>
+
+                                            {% endfor %}
+
+                                        </select>
+
+                                        <button
+                                            type="submit"
+                                            class="btn btn-primary btn-sm w-100 mb-2"
+                                        >
+                                            Update Status
+                                        </button>
+
+                                    </form>
+
+
+                                    {% if application.resume %}
+
+                                        <a
+                                            href="{{ application.resume.url }}"
+                                            target="_blank"
+                                            class="btn btn-outline-secondary btn-sm w-100"
+                                        >
+                                            📄 View Resume
+                                        </a>
+
+                                    {% endif %}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+
+    {% else %}
+
+        <!-- EMPTY -->
+
+        <div class="card border-0 shadow-sm">
+
+            <div class="card-body text-center py-5">
+
+                <div class="fs-1 mb-3">
+                    📭
+                </div>
+
+                <h5 class="fw-bold">
+                    No Applications Found
+                </h5>
+
+                {% if search or selected_status %}
+
+                    <p class="text-muted">
+                        No applicants match your current search or filter.
+                    </p>
+
+                    <a
+                        href="{% url 'jobs:job_applications' job.id %}"
+                        class="btn btn-outline-primary"
+                    >
+                        Clear Filters
+                    </a>
+
+                {% else %}
+
+                    <p class="text-muted mb-0">
+                        Applications for this job will appear here.
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

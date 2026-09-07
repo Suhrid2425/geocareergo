@@ -2,6 +2,10 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+# ==========================================================
+# STUDENT PROFILE
+# ==========================================================
+
 class StudentProfile(models.Model):
 
     DEGREE_CHOICES = [
@@ -102,3 +106,72 @@ class StudentProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+# ==========================================================
+# COMPANY PROFILE
+# ==========================================================
+
+class CompanyProfile(models.Model):
+
+    VERIFICATION_STATUS = [
+        ("pending", "Pending Review"),
+        ("verified", "Verified"),
+        ("rejected", "Rejected"),
+    ]
+
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name="company_profile"
+    )
+
+    company_name = models.CharField(
+        max_length=200
+    )
+
+    logo = models.ImageField(
+        upload_to="company_logos/",
+        blank=True,
+        null=True
+    )
+
+    website = models.URLField(
+        blank=True
+    )
+
+    linkedin_url = models.URLField(
+        blank=True
+    )
+
+    company_email = models.EmailField(
+        blank=True,
+        default=""
+    )
+
+    executive_linkedin_url = models.URLField(
+        blank=True
+    )
+
+    registration_document = models.FileField(
+        upload_to="company_documents/",
+        blank=True,
+        null=True
+    )
+
+    verification_status = models.CharField(
+        max_length=20,
+        choices=VERIFICATION_STATUS,
+        default="pending"
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    updated_at = models.DateTimeField(
+        auto_now=True
+    )
+
+    def __str__(self):
+        return self.company_name

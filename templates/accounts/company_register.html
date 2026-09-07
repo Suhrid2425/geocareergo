@@ -1,0 +1,319 @@
+{% extends "base.html" %}
+
+{% block title %}
+Create Company Account | GeoCareerGo
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-7 col-md-9">
+
+            <!-- HEADER -->
+
+            <div class="text-center mb-4">
+
+                <div
+                    class="d-inline-flex align-items-center justify-content-center rounded-circle mb-3"
+                    style="
+                        width: 56px;
+                        height: 56px;
+                        background: #ecfdf5;
+                        color: #059669;
+                        font-size: 25px;
+                    "
+                >
+                    <i class="bi bi-building-fill"></i>
+                </div>
+
+                <div class="mb-2">
+
+                    <span class="badge bg-success-subtle text-success">
+                        Company
+                    </span>
+
+                </div>
+
+                <h2 class="fw-bold">
+                    Create Company Account
+                </h2>
+
+                <p class="text-muted">
+                    Register your company to post jobs and manage recruitment
+                    on GeoCareerGo.
+                </p>
+
+            </div>
+
+
+            <!-- ERROR -->
+
+            {% if error %}
+
+                <div class="alert alert-danger shadow-sm">
+                    {{ error }}
+                </div>
+
+            {% endif %}
+
+
+            <!-- FORM CARD -->
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body p-4 p-md-5">
+
+                    <form
+                        method="POST"
+                        enctype="multipart/form-data"
+                    >
+
+                        {% csrf_token %}
+
+
+                        <!-- COMPANY NAME -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Company Name
+                                <span class="text-danger">*</span>
+                            </label>
+
+                            <input
+                                type="text"
+                                name="company_name"
+                                class="form-control form-control-lg"
+                                value="{{ company_name|default:'' }}"
+                                placeholder="Example Technologies Pvt. Ltd."
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- COMPANY EMAIL -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Company Email
+                                <span class="text-danger">*</span>
+                            </label>
+
+                            <input
+                                type="email"
+                                name="company_email"
+                                class="form-control form-control-lg"
+                                value="{{ company_email|default:'' }}"
+                                placeholder="hr@company.com"
+                                required
+                            >
+
+                            <div class="form-text">
+                                This email will be used for company login.
+                            </div>
+
+                        </div>
+
+
+                        <!-- WEBSITE -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Company Website
+                            </label>
+
+                            <input
+                                type="url"
+                                name="website"
+                                class="form-control"
+                                value="{{ website|default:'' }}"
+                                placeholder="https://company.com"
+                            >
+
+                        </div>
+
+
+                        <!-- LINKEDIN -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Company LinkedIn Profile
+                            </label>
+
+                            <input
+                                type="url"
+                                name="linkedin_url"
+                                class="form-control"
+                                value="{{ linkedin_url|default:'' }}"
+                                placeholder="https://linkedin.com/company/your-company"
+                            >
+
+                        </div>
+
+
+                        <!-- EXECUTIVE LINKEDIN -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Founder / Executive LinkedIn Profile
+                            </label>
+
+                            <input
+                                type="url"
+                                name="executive_linkedin_url"
+                                class="form-control"
+                                value="{{ executive_linkedin_url|default:'' }}"
+                                placeholder="https://linkedin.com/in/founder"
+                            >
+
+                            <div class="form-text">
+                                This helps GeoCareerGo verify that the company is genuine.
+                            </div>
+
+                        </div>
+
+
+                        <!-- LOGO -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Company Logo
+                            </label>
+
+                            <input
+                                type="file"
+                                name="logo"
+                                class="form-control"
+                                accept="image/*"
+                            >
+
+                        </div>
+
+
+                        <!-- REGISTRATION DOCUMENT -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Company Registration Document
+                            </label>
+
+                            <input
+                                type="file"
+                                name="registration_document"
+                                class="form-control"
+                                accept=".pdf,.jpg,.jpeg,.png"
+                            >
+
+                            <div class="form-text">
+                                Upload a valid company registration document
+                                for verification.
+                            </div>
+
+                        </div>
+
+
+                        <hr class="my-4">
+
+
+                        <!-- PASSWORD -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Password
+                                <span class="text-danger">*</span>
+                            </label>
+
+                            <input
+                                type="password"
+                                name="password"
+                                class="form-control form-control-lg"
+                                placeholder="Create a password"
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- CONFIRM PASSWORD -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Confirm Password
+                                <span class="text-danger">*</span>
+                            </label>
+
+                            <input
+                                type="password"
+                                name="confirm_password"
+                                class="form-control form-control-lg"
+                                placeholder="Confirm your password"
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- SUBMIT -->
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary btn-lg w-100"
+                        >
+                            Create Company Account
+                        </button>
+
+                    </form>
+
+
+                    <!-- LOGIN -->
+
+                    <div class="text-center mt-4">
+
+                        <span class="text-muted">
+                            Already have a company account?
+                        </span>
+
+                        <a
+                            href="{% url 'accounts:company_login' %}"
+                            class="fw-semibold text-decoration-none"
+                        >
+                            Login
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- VERIFICATION NOTE -->
+
+            <div class="text-center mt-4">
+
+                <small class="text-muted">
+                    Your company information will be reviewed before
+                    you can post jobs on GeoCareerGo.
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

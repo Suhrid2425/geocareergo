@@ -1,95 +1,311 @@
 {% extends "base.html" %}
 
 {% block title %}
-Login | GeoCareerGo
+    Student Login | GeoCareerGo
 {% endblock %}
+
+{% block meta_description %}
+    Login to GeoCareerGo as a student to apply for jobs, track applications and access career resources.
+{% endblock %}
+
+{% block meta_robots %}
+    noindex, nofollow
+{% endblock %}
+
 
 {% block content %}
 
-<section class="py-5">
+<div class="container py-5">
 
-    <div class="container">
+    <div class="row justify-content-center">
 
-        <div class="row justify-content-center">
+        <div class="col-12 col-md-6 col-lg-4">
 
-            <div class="col-md-6 col-lg-4">
+            <div class="card shadow-sm border-0">
 
-                <div class="feature-card">
-
-                    <h2 class="fw-bold mb-4">
-                        Login
-                    </h2>
+                <div class="card-body p-4">
 
 
-                    {% if messages %}
+                    <!-- ==========================================
+                         ACCOUNT TYPE
+                    =========================================== -->
 
-                        {% for message in messages %}
+                    <div class="text-center mb-3">
 
-                            <div class="alert alert-danger">
-                                {{ message }}
-                            </div>
+                        <div
+                            class="d-inline-flex align-items-center justify-content-center rounded-circle mb-2"
+                            style="
+                                width: 52px;
+                                height: 52px;
+                                background: #eff6ff;
+                                color: #2563eb;
+                                font-size: 23px;
+                            "
+                        >
 
-                        {% endfor %}
+                            <i class="bi bi-mortarboard-fill"></i>
+
+                        </div>
+
+                        <div>
+
+                            <span
+                                class="badge bg-primary-subtle text-primary"
+                            >
+                                Student
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ==========================================
+                         LOGIN TITLE
+                    =========================================== -->
+
+                    <h1
+                        class="h3 fw-bold text-center mb-2"
+                    >
+                        Student Login
+                    </h1>
+
+                    <p class="text-muted text-center small mb-4">
+                        Login to apply for jobs, internships and access
+                        your career resources.
+                    </p>
+
+
+                    <!-- ==========================================
+                         ERROR
+                    =========================================== -->
+
+                    {% if error %}
+
+                        <div
+                            class="alert alert-danger"
+                            role="alert"
+                        >
+                            {{ error }}
+                        </div>
 
                     {% endif %}
 
 
-                    <form method="POST">
+                    <!-- ==========================================
+                         NORMAL LOGIN
+                    =========================================== -->
+
+                    <form
+                        method="POST"
+                        action="{% url 'accounts:login' %}"
+                    >
 
                         {% csrf_token %}
 
 
+                        <!-- USERNAME -->
+
                         <div class="mb-3">
 
-                            <label class="form-label">
+                            <label
+                                for="username"
+                                class="form-label"
+                            >
                                 Username
                             </label>
 
                             <input
                                 type="text"
                                 name="username"
+                                id="username"
                                 class="form-control"
+                                autocomplete="username"
                                 required
                             >
 
                         </div>
 
 
+                        <!-- PASSWORD -->
+
                         <div class="mb-3">
 
-                            <label class="form-label">
+                            <label
+                                for="password"
+                                class="form-label"
+                            >
                                 Password
                             </label>
 
                             <input
                                 type="password"
                                 name="password"
+                                id="password"
                                 class="form-control"
+                                autocomplete="current-password"
                                 required
                             >
 
                         </div>
 
 
+                        <!-- LOGIN BUTTON -->
+
                         <button
                             type="submit"
                             class="btn btn-dark w-100"
                         >
-                            Login
+                            Login as Student
                         </button>
 
                     </form>
 
 
-                    <p class="text-muted text-center mt-4 mb-0">
+                    <!-- ==========================================
+                         GOOGLE LOGIN
+                    =========================================== -->
 
-                        Don't have an account?
+                    {% if google_client_id %}
 
-                        <a href="{% url 'accounts:register' %}">
-                            Register
+                        <div class="my-4">
+
+                            <div class="d-flex align-items-center">
+
+                                <hr class="flex-grow-1">
+
+                                <span
+                                    class="mx-3 text-muted small"
+                                >
+                                    OR
+                                </span>
+
+                                <hr class="flex-grow-1">
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="text-center">
+
+                            <p
+                                class="text-muted small mb-3"
+                            >
+                                Continue as Student with Google
+                            </p>
+
+
+                            <!-- GOOGLE INITIALIZATION -->
+
+                            <div
+                                id="g_id_onload"
+                                data-client_id="{{ google_client_id }}"
+                                data-callback="handleGoogleCredential"
+                                data-auto_prompt="false"
+                                data-ux_mode="popup"
+                            >
+                            </div>
+
+
+                            <!-- GOOGLE BUTTON -->
+
+                            <div
+                                class="g_id_signin"
+                                data-type="standard"
+                                data-theme="outline"
+                                data-size="large"
+                                data-text="continue_with"
+                                data-shape="rectangular"
+                                data-logo_alignment="left"
+                            >
+                            </div>
+
+                        </div>
+
+                    {% else %}
+
+                        <div
+                            class="alert alert-warning small"
+                        >
+                            Google Sign-In is not configured.
+                        </div>
+
+                    {% endif %}
+
+
+                    <!-- ==========================================
+                         STUDENT REGISTER
+                    =========================================== -->
+
+                    <div
+                        class="text-center mt-4"
+                    >
+
+                        <span class="text-muted">
+                            Don't have a student account?
+                        </span>
+
+                        <a
+                            href="{% url 'accounts:register' %}"
+                            class="fw-semibold"
+                        >
+                            Sign Up
                         </a>
 
-                    </p>
+                    </div>
+
+
+                    <!-- ==========================================
+                         COMPANY LOGIN OPTION
+                    =========================================== -->
+
+                    <div
+                        class="mt-4 pt-4 border-top text-center"
+                    >
+
+                        <div class="mb-2">
+
+                            <i
+                                class="bi bi-building-fill"
+                                style="color: #059669;"
+                            ></i>
+
+                            <span class="fw-semibold ms-1">
+                                Are you a company?
+                            </span>
+
+                        </div>
+
+
+                        <p class="text-muted small mb-3">
+                            Login or create a company account to post jobs
+                            and manage recruitment.
+                        </p>
+
+
+                        <div
+                            class="d-flex gap-2 justify-content-center"
+                        >
+
+                            <a
+                                href="{% url 'accounts:company_login' %}"
+                                class="btn btn-outline-success btn-sm px-3"
+                            >
+                                Company Login
+                            </a>
+
+
+                            <a
+                                href="{% url 'accounts:company_register' %}"
+                                class="btn btn-success btn-sm px-3"
+                            >
+                                Company Sign Up
+                            </a>
+
+                        </div>
+
+                    </div>
 
                 </div>
 
@@ -99,6 +315,130 @@ Login | GeoCareerGo
 
     </div>
 
-</section>
+</div>
+
+
+<!-- ==========================================================
+     GOOGLE IDENTITY SERVICES
+========================================================== -->
+
+<script
+    src="https://accounts.google.com/gsi/client"
+    async
+    defer>
+</script>
+
+
+<script>
+
+function handleGoogleCredential(response) {
+
+    console.log(
+        "Google credential received"
+    );
+
+
+    /*
+     * Get Django CSRF token
+     */
+
+    const csrfInput = document.querySelector(
+        'input[name="csrfmiddlewaretoken"]'
+    );
+
+
+    if (!csrfInput) {
+
+        alert(
+            "Security token missing. Please refresh the page."
+        );
+
+        return;
+
+    }
+
+
+    const csrfToken = csrfInput.value;
+
+
+    /*
+     * Prepare request
+     */
+
+    const formData = new FormData();
+
+    formData.append(
+        "credential",
+        response.credential
+    );
+
+
+    /*
+     * Send Google credential to Django
+     */
+
+    fetch(
+        "{% url 'accounts:google_login' %}",
+        {
+            method: "POST",
+
+            body: formData,
+
+            credentials: "same-origin",
+
+            headers: {
+                "X-CSRFToken": csrfToken
+            }
+        }
+    )
+
+    .then(function(response) {
+
+        return response.json();
+
+    })
+
+    .then(function(data) {
+
+        console.log(
+            "Google login response:",
+            data
+        );
+
+
+        if (data.success) {
+
+            window.location.href =
+                data.redirect;
+
+            return;
+
+        }
+
+
+        alert(
+            data.message ||
+            data.error ||
+            "Google Sign-In failed."
+        );
+
+    })
+
+    .catch(function(error) {
+
+        console.error(
+            "Google Sign-In error:",
+            error
+        );
+
+        alert(
+            "Google Sign-In failed. Please try again."
+        );
+
+    });
+
+}
+
+</script>
 
 {% endblock %}

@@ -1,9 +1,8 @@
 {% extends "base.html" %}
 
 {% block title %}
-GeoCareerGo | Geology, GIS & Earth Science Careers
+GeoCareerGo | Earth Science Careers
 {% endblock %}
-
 
 {% block content %}
 
@@ -12,85 +11,56 @@ GeoCareerGo | Geology, GIS & Earth Science Careers
      HERO
 ================================================== -->
 
-<section class="py-3">
+<section class="home-hero">
 
     <div class="container">
 
-        <div class="row align-items-center py-4">
+        <div class="hero-content">
 
-            <!-- HERO TEXT -->
+            <span class="hero-label">
+                <i class="bi bi-globe-americas"></i>
+                GEOLOGY • GIS • EARTH SCIENCE
+            </span>
 
-            <div class="col-lg-7">
+            <h1>
+                Build Your Career in
+                <span>Earth Science.</span>
+            </h1>
 
-                <span class="badge bg-light text-dark border mb-3">
-                    GEOLOGY • GIS • EARTH SCIENCE
-                </span>
+            <p class="hero-subtitle">
+                Find jobs, study resources, exam practice
+                and career guidance — all in one place.
+            </p>
 
+            <!-- HERO BUTTONS -->
 
-                <h1 class="display-5 fw-bold">
-                    Build Your Career
-                    in Earth Science.
-                </h1>
+            <div class="hero-buttons">
 
+                <a
+                    href="{% url 'jobs:job_list' %}"
+                    class="btn btn-dark btn-lg"
+                >
+                    <i class="bi bi-briefcase"></i>
+                    Explore Jobs
+                </a>
 
-                <p class="lead text-muted mt-3">
-                    Discover geology and GIS jobs, study resources,
-                    previous year papers, practice tests and
-                    career mentorship — all in one place.
-                </p>
-
-
-                <!-- HERO BUTTONS -->
-
-                <div class="mt-4">
-
-                    <a
-                        href="{% url 'jobs:job_list' %}"
-                        class="btn btn-dark btn-lg me-2"
-                    >
-                        Explore Jobs
-                    </a>
-
-
-                    <a
-                        href="{% url 'exam_tests:test_home' %}"
-                        class="btn btn-outline-dark btn-lg"
-                    >
-                        Start Preparing
-                    </a>
-
-                </div>
+                <a
+                    href="{% url 'notes:note_list' %}"
+                    class="btn btn-outline-dark btn-lg"
+                >
+                    <i class="bi bi-book"></i>
+                    Start Preparing
+                </a>
 
             </div>
 
+        </div>
 
-            <!-- HERO CARD -->
+    </div>
 
-            <div class="col-lg-5 mt-4 mt-lg-0">
+</section>
 
-                <div class="feature-card text-center py-4">
-
-                    <div
-                        class="feature-icon"
-                        style="font-size: 3.5rem;"
-                    >
-                        🌍
-                    </div>
-
-
-                    <h3 class="fw-bold mt-2">
-                        GeoCareerGo
-                    </h3>
-
-
-                    <p class="text-muted mb-0">
-                        Your career and preparation platform
-                        for Earth Science aspirants.
-                    </p>
-
-                </div>
-
-            </div>
+            
 
         </div>
 
@@ -101,184 +71,135 @@ GeoCareerGo | Geology, GIS & Earth Science Careers
 
 
 <!-- ==================================================
-     MAIN FEATURES
+     MAIN ACTIONS
 ================================================== -->
 
-<section class="py-5 bg-light">
+<section class="home-actions">
 
     <div class="container">
 
-        <div class="text-center mb-5">
+        <div class="section-heading">
 
-            <span class="badge bg-white text-dark border mb-3">
+            <span>
                 EXPLORE
             </span>
 
-
-            <h2 class="fw-bold">
-                Everything You Need
+            <h2>
+                Everything for Your Career
             </h2>
 
-
-            <p class="text-muted">
-                Learn, practice and build your Earth Science career.
+            <p>
+                Find opportunities, learn and prepare.
             </p>
 
         </div>
 
 
-        <div class="row g-4">
+        <div class="row g-3">
 
 
             <!-- JOBS -->
 
-            <div class="col-md-6 col-lg-3">
+            <div class="col-6 col-lg-3">
 
                 <a
                     href="{% url 'jobs:job_list' %}"
-                    class="text-decoration-none text-dark"
+                    class="home-action-card"
                 >
 
-                    <div class="feature-card h-100">
-
-                        <div class="feature-icon">
-                            💼
-                        </div>
-
-
-                        <h4 class="mt-3">
-                            Jobs
-                        </h4>
-
-
-                        <p class="text-muted">
-                            Find opportunities in Geology,
-                            GIS, Geophysics and Earth Science.
-                        </p>
-
-
-                        <span class="fw-semibold">
-                            Explore Jobs →
-                        </span>
-
+                    <div class="action-icon jobs-icon">
+                        <i class="bi bi-briefcase-fill"></i>
                     </div>
+
+                    <h3>
+                        Jobs
+                    </h3>
+
+                    <span class="action-link">
+                        Find Jobs
+                        <i class="bi bi-arrow-right"></i>
+                    </span>
 
                 </a>
 
             </div>
 
 
+            <!-- LEARN -->
 
-            <!-- NOTES -->
-
-            <div class="col-md-6 col-lg-3">
+            <div class="col-6 col-lg-3">
 
                 <a
                     href="{% url 'notes:note_list' %}"
-                    class="text-decoration-none text-dark"
+                    class="home-action-card"
                 >
 
-                    <div class="feature-card h-100">
-
-                        <div class="feature-icon">
-                            📚
-                        </div>
-
-
-                        <h4 class="mt-3">
-                            Notes & Prep
-                        </h4>
-
-
-                        <p class="text-muted">
-                            GATE, JAM, PSU and
-                            university subject resources.
-                        </p>
-
-
-                        <span class="fw-semibold">
-                            Start Preparing →
-                        </span>
-
+                    <div class="action-icon notes-icon">
+                        <i class="bi bi-book-fill"></i>
                     </div>
+
+                    <h3>
+                        Learn
+                    </h3>
+
+                    <span class="action-link">
+                        Start Learning
+                        <i class="bi bi-arrow-right"></i>
+                    </span>
 
                 </a>
 
             </div>
 
 
+            <!-- PRACTICE -->
 
-            <!-- TESTS -->
-
-            <div class="col-md-6 col-lg-3">
+            <div class="col-6 col-lg-3">
 
                 <a
                     href="{% url 'exam_tests:test_home' %}"
-                    class="text-decoration-none text-dark"
+                    class="home-action-card"
                 >
 
-                    <div class="feature-card h-100">
-
-                        <div class="feature-icon">
-                            📝
-                        </div>
-
-
-                        <h4 class="mt-3">
-                            Tests
-                        </h4>
-
-
-                        <p class="text-muted">
-                            Previous year papers and free
-                            aptitude, reasoning and verbal practice.
-                        </p>
-
-
-                        <span class="fw-semibold">
-                            Practice Now →
-                        </span>
-
+                    <div class="action-icon tests-icon">
+                        <i class="bi bi-pencil-square"></i>
                     </div>
+
+                    <h3>
+                        Practice
+                    </h3>
+
+                    <span class="action-link">
+                        Practice Now
+                        <i class="bi bi-arrow-right"></i>
+                    </span>
 
                 </a>
 
             </div>
 
 
+            <!-- CAREER -->
 
-            <!-- MENTORSHIP -->
-
-            <div class="col-md-6 col-lg-3">
+            <div class="col-6 col-lg-3">
 
                 <a
                     href="{% url 'core:mentorship' %}"
-                    class="text-decoration-none text-dark"
+                    class="home-action-card"
                 >
 
-                    <div class="feature-card h-100">
-
-                        <div class="feature-icon">
-                            👨‍🏫
-                        </div>
-
-
-                        <h4 class="mt-3">
-                            Mentorship
-                        </h4>
-
-
-                        <p class="text-muted">
-                            Get career guidance and
-                            Earth Science mentorship.
-                        </p>
-
-
-                        <span class="fw-semibold">
-                            Learn More →
-                        </span>
-
+                    <div class="action-icon career-icon">
+                        <i class="bi bi-person-video3"></i>
                     </div>
+
+                    <h3>
+                        Career
+                    </h3>
+
+                    <span class="action-link">
+                        Get Guidance
+                        <i class="bi bi-arrow-right"></i>
+                    </span>
 
                 </a>
 
@@ -290,160 +211,277 @@ GeoCareerGo | Geology, GIS & Earth Science Careers
 
 </section>
 
-
-
 <!-- ==================================================
-     PREPARATION
+     TRENDING JOBS
 ================================================== -->
 
-<section class="py-5">
+<section class="trending-jobs">
 
     <div class="container">
 
-        <div class="row align-items-center">
+
+        <!-- HEADER -->
+
+        <div class="trending-header">
+
+            <div>
+
+                <span class="trending-label">
+
+                    <i class="bi bi-fire"></i>
+
+                    TRENDING
+
+                </span>
+
+
+                <h2>
+                    Trending Jobs
+                </h2>
+
+
+                <p>
+                    Latest opportunities worth checking out.
+                </p>
+
+            </div>
+
+
+            <a
+                href="{% url 'jobs:job_list' %}"
+                class="trending-view-all"
+            >
+
+                View all
+
+                <i class="bi bi-arrow-right"></i>
+
+            </a>
+
+        </div>
+
+
+
+        <!-- ==================================================
+             TRENDING JOB LIST
+        ================================================== -->
+
+        {% if trending_jobs %}
+
+            <div class="trending-job-list">
+
+                {% for job in trending_jobs %}
+
+                    <a
+                        href="{% url 'jobs:job_detail' job.id %}"
+                        class="trending-job-card"
+                    >
+
+
+                        <!-- JOB INFORMATION -->
+
+                        <div class="trending-job-main">
+
+
+                            <!-- COMPANY ICON -->
+
+                            <div class="trending-company-icon">
+
+                                <i class="bi bi-building"></i>
+
+                            </div>
+
+
+
+                            <!-- DETAILS -->
+
+                            <div>
+
+                                <h3>
+                                    {{ job.title }}
+                                </h3>
+
+
+                                <p class="trending-company">
+                                    {{ job.organization }}
+                                </p>
+
+
+                                <div class="trending-meta">
+
+                                    <span>
+
+                                        <i class="bi bi-geo-alt"></i>
+
+                                        {{ job.location }}
+
+                                    </span>
+
+
+                                    <span>
+
+                                        <i class="bi bi-briefcase"></i>
+
+                                        {{ job.get_job_type_display }}
+
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- ARROW -->
+
+                        <div class="trending-arrow">
+
+                            <i class="bi bi-arrow-up-right"></i>
+
+                        </div>
+
+                    </a>
+
+                {% endfor %}
+
+            </div>
+
+
+        {% else %}
+
+
+            <!-- EMPTY STATE -->
+
+            <div class="trending-empty">
+
+                <i class="bi bi-briefcase"></i>
+
+                <p>
+                    New opportunities are coming soon.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+
+
+<!-- ==================================================
+     CAREER FLOW
+================================================== -->
+
+<section class="career-flow">
+
+    <div class="container">
+
+        <div class="career-flow-card">
 
 
             <!-- TEXT -->
 
-            <div class="col-lg-6">
+            <div>
 
-                <span class="badge bg-light text-dark border mb-3">
-                    PREPARATION
+                <span class="hero-label">
+                    YOUR CAREER JOURNEY
                 </span>
 
 
-                <h2 class="fw-bold">
-                    Prepare for the Exams That Matter
+                <h2>
+                    Discover. Prepare. Practice. Grow.
                 </h2>
 
 
-                <p class="text-muted mt-3">
-                    Access study resources and practice material
-                    for major Earth Science examinations.
+                <p>
+                    Everything you need to move from
+                    learning Earth Science to building
+                    your career.
                 </p>
 
             </div>
 
 
 
-            <!-- EXAMS -->
+            <!-- STEPS -->
 
-            <div class="col-lg-6">
-
-                <div class="row g-3">
+            <div class="career-steps">
 
 
-                    <!-- GATE -->
+                <div>
 
-                    <div class="col-6">
+                    <span>
+                        01
+                    </span>
 
-                        <a
-                            href="{% url 'notes:note_list' %}?category=gate"
-                            class="text-decoration-none text-dark"
-                        >
+                    <strong>
+                        Discover
+                    </strong>
 
-                            <div class="feature-card text-center">
-
-                                <div class="feature-icon">
-                                    🎯
-                                </div>
-
-
-                                <h5 class="fw-bold">
-                                    GATE
-                                </h5>
-
-                            </div>
-
-                        </a>
-
-                    </div>
-
-
-
-                    <!-- JAM -->
-
-                    <div class="col-6">
-
-                        <a
-                            href="{% url 'notes:note_list' %}?category=jam"
-                            class="text-decoration-none text-dark"
-                        >
-
-                            <div class="feature-card text-center">
-
-                                <div class="feature-icon">
-                                    🎓
-                                </div>
-
-
-                                <h5 class="fw-bold">
-                                    JAM
-                                </h5>
-
-                            </div>
-
-                        </a>
-
-                    </div>
-
-
-
-                    <!-- PSU -->
-
-                    <div class="col-6">
-
-                        <a
-                            href="{% url 'notes:note_list' %}?category=psu"
-                            class="text-decoration-none text-dark"
-                        >
-
-                            <div class="feature-card text-center">
-
-                                <div class="feature-icon">
-                                    🏢
-                                </div>
-
-
-                                <h5 class="fw-bold">
-                                    PSU
-                                </h5>
-
-                            </div>
-
-                        </a>
-
-                    </div>
-
-
-
-                    <!-- SUBJECTS -->
-
-                    <div class="col-6">
-
-                        <a
-                            href="{% url 'notes:note_list' %}?category=subject"
-                            class="text-decoration-none text-dark"
-                        >
-
-                            <div class="feature-card text-center">
-
-                                <div class="feature-icon">
-                                    📖
-                                </div>
-
-
-                                <h5 class="fw-bold">
-                                    Subjects
-                                </h5>
-
-                            </div>
-
-                        </a>
-
-                    </div>
+                    <small>
+                        Find opportunities
+                    </small>
 
                 </div>
+
+
+
+                <div>
+
+                    <span>
+                        02
+                    </span>
+
+                    <strong>
+                        Prepare
+                    </strong>
+
+                    <small>
+                        Study & learn
+                    </small>
+
+                </div>
+
+
+
+                <div>
+
+                    <span>
+                        03
+                    </span>
+
+                    <strong>
+                        Practice
+                    </strong>
+
+                    <small>
+                        Test yourself
+                    </small>
+
+                </div>
+
+
+
+                <div>
+
+                    <span>
+                        04
+                    </span>
+
+                    <strong>
+                        Grow
+                    </strong>
+
+                    <small>
+                        Build your career
+                    </small>
+
+                </div>
+
 
             </div>
 
@@ -456,52 +494,164 @@ GeoCareerGo | Geology, GIS & Earth Science Careers
 
 
 <!-- ==================================================
-     CALL TO ACTION
+     EXAMS
 ================================================== -->
 
-<section class="py-5">
+<section class="exam-section">
 
     <div class="container">
 
-        <div class="feature-card text-center py-5">
 
-            <span class="badge bg-light text-dark border mb-3">
+        <div class="section-heading text-start">
+
+            <span>
+                PREPARATION
+            </span>
+
+
+            <h2>
+                Prepare for What Matters
+            </h2>
+
+
+            <p>
+                Explore resources for major Earth Science exams.
+            </p>
+
+        </div>
+
+
+
+        <div class="exam-grid">
+
+
+            <!-- GATE -->
+
+            <a
+                href="{% url 'notes:note_list' %}?category=gate"
+                class="exam-card"
+            >
+
+                <i class="bi bi-bullseye"></i>
+
+                <strong>
+                    GATE
+                </strong>
+
+                <small>
+                    Prepare smarter
+                </small>
+
+            </a>
+
+
+
+            <!-- JAM -->
+
+            <a
+                href="{% url 'notes:note_list' %}?category=jam"
+                class="exam-card"
+            >
+
+                <i class="bi bi-mortarboard-fill"></i>
+
+                <strong>
+                    JAM
+                </strong>
+
+                <small>
+                    Study resources
+                </small>
+
+            </a>
+
+
+
+            <!-- PSU -->
+
+            <a
+                href="{% url 'notes:note_list' %}?category=psu"
+                class="exam-card"
+            >
+
+                <i class="bi bi-building"></i>
+
+                <strong>
+                    PSU
+                </strong>
+
+                <small>
+                    Career preparation
+                </small>
+
+            </a>
+
+
+
+            <!-- SUBJECTS -->
+
+            <a
+                href="{% url 'notes:note_list' %}?category=subject"
+                class="exam-card"
+            >
+
+                <i class="bi bi-journal-text"></i>
+
+                <strong>
+                    Subjects
+                </strong>
+
+                <small>
+                    Build fundamentals
+                </small>
+
+            </a>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ==================================================
+     FINAL CTA
+================================================== -->
+
+<section class="home-cta">
+
+    <div class="container">
+
+        <div class="home-cta-card">
+
+
+            <span>
                 GEOCAREERGO
             </span>
 
 
-            <h2 class="fw-bold">
-                Start Building Your Earth Science Career
+            <h2>
+                Ready to build your Earth Science career?
             </h2>
 
 
-            <p
-                class="text-muted mx-auto"
-                style="max-width: 650px;"
-            >
-                Explore opportunities, prepare for competitive exams
-                and improve your skills with GeoCareerGo.
+            <p>
+                Explore opportunities and start preparing today.
             </p>
 
 
-            <div class="mt-4">
+            <a
+                href="{% url 'jobs:job_list' %}"
+                class="btn btn-light btn-lg"
+            >
 
-                <a
-                    href="{% url 'jobs:job_list' %}"
-                    class="btn btn-dark me-2"
-                >
-                    Explore Jobs
-                </a>
+                Explore Jobs
 
+                <i class="bi bi-arrow-right"></i>
 
-                <a
-                    href="{% url 'exam_tests:test_home' %}"
-                    class="btn btn-outline-dark"
-                >
-                    Practice Tests
-                </a>
-
-            </div>
+            </a>
 
         </div>
 

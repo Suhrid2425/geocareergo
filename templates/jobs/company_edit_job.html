@@ -1,0 +1,379 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-9">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body p-4 p-md-5">
+
+                    <!-- HEADER -->
+
+                    <div class="mb-4">
+
+                        <h2 class="fw-bold mb-1">
+                            Edit Job
+                        </h2>
+
+                        <p class="text-muted mb-0">
+
+                            Editing job posted by
+                            <strong>
+                                {{ company.company_name }}
+                            </strong>
+
+                        </p>
+
+                    </div>
+
+
+                    <!-- FORM -->
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+
+                        <!-- NON FIELD ERRORS -->
+
+                        {% if form.non_field_errors %}
+
+                            <div class="alert alert-danger">
+
+                                {{ form.non_field_errors }}
+
+                            </div>
+
+                        {% endif %}
+
+
+                        <!-- TITLE -->
+
+                        <div class="mb-3">
+
+                            <label class="form-label fw-semibold">
+                                Job Title
+                            </label>
+
+                            {{ form.title }}
+
+                            {% for error in form.title.errors %}
+
+                                <div class="text-danger small">
+                                    {{ error }}
+                                </div>
+
+                            {% endfor %}
+
+                        </div>
+
+
+                        <!-- LOCATION -->
+
+                        <div class="mb-3">
+
+                            <label class="form-label fw-semibold">
+                                Location
+                            </label>
+
+                            {{ form.location }}
+
+                            {% for error in form.location.errors %}
+
+                                <div class="text-danger small">
+                                    {{ error }}
+                                </div>
+
+                            {% endfor %}
+
+                        </div>
+
+
+                        <!-- JOB TYPE -->
+
+                        <div class="mb-3">
+
+                            <label class="form-label fw-semibold">
+                                Job Type
+                            </label>
+
+                            {{ form.job_type }}
+
+                            {% for error in form.job_type.errors %}
+
+                                <div class="text-danger small">
+                                    {{ error }}
+                                </div>
+
+                            {% endfor %}
+
+                        </div>
+
+
+                        <!-- DEGREE -->
+
+                        <div class="mb-3">
+
+                            <label class="form-label fw-semibold">
+                                Required Degree
+                            </label>
+
+                            {{ form.degree }}
+
+                            {% for error in form.degree.errors %}
+
+                                <div class="text-danger small">
+                                    {{ error }}
+                                </div>
+
+                            {% endfor %}
+
+                        </div>
+
+
+                        <!-- QUALIFICATION -->
+
+                        <div class="mb-3">
+
+                            <label class="form-label fw-semibold">
+                                Qualification
+                            </label>
+
+                            {{ form.qualification }}
+
+                            {% for error in form.qualification.errors %}
+
+                                <div class="text-danger small">
+                                    {{ error }}
+                                </div>
+
+                            {% endfor %}
+
+                        </div>
+
+
+                        <!-- EXPERIENCE -->
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label fw-semibold">
+                                    Minimum Experience
+                                </label>
+
+                                {{ form.min_experience }}
+
+                                {% for error in form.min_experience.errors %}
+
+                                    <div class="text-danger small">
+                                        {{ error }}
+                                    </div>
+
+                                {% endfor %}
+
+                                <div class="form-text">
+                                    Years
+                                </div>
+
+                            </div>
+
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label fw-semibold">
+                                    Maximum Experience
+                                </label>
+
+                                {{ form.max_experience }}
+
+                                {% for error in form.max_experience.errors %}
+
+                                    <div class="text-danger small">
+                                        {{ error }}
+                                    </div>
+
+                                {% endfor %}
+
+                                <div class="form-text">
+                                    Years
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- SALARY -->
+
+                        <div class="mb-3">
+
+                            <label class="form-label fw-semibold">
+                                Salary
+                            </label>
+
+                            {{ form.salary }}
+
+                            {% for error in form.salary.errors %}
+
+                                <div class="text-danger small">
+                                    {{ error }}
+                                </div>
+
+                            {% endfor %}
+
+                        </div>
+
+
+                        <!-- DESCRIPTION -->
+
+                        <div class="mb-3">
+
+                            <label class="form-label fw-semibold">
+                                Job Description
+                            </label>
+
+                            {{ form.description }}
+
+                            {% for error in form.description.errors %}
+
+                                <div class="text-danger small">
+                                    {{ error }}
+                                </div>
+
+                            {% endfor %}
+
+                        </div>
+
+
+                        <!-- APPLICATION TYPE -->
+
+                        <div class="mb-3">
+
+                            <label class="form-label fw-semibold">
+                                Application Method
+                            </label>
+
+                            {{ form.application_type }}
+
+                            {% for error in form.application_type.errors %}
+
+                                <div class="text-danger small">
+                                    {{ error }}
+                                </div>
+
+                            {% endfor %}
+
+                        </div>
+
+
+                        <!-- APPLICATION URL -->
+
+                        <div class="mb-3">
+
+                            <label class="form-label fw-semibold">
+                                Application URL
+                            </label>
+
+                            {{ form.application_url }}
+
+                            {% for error in form.application_url.errors %}
+
+                                <div class="text-danger small">
+                                    {{ error }}
+                                </div>
+
+                            {% endfor %}
+
+                            <div class="form-text">
+                                Required when using an external application website.
+                            </div>
+
+                        </div>
+
+
+                        <!-- LAST DATE -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Application Deadline
+                            </label>
+
+                            {{ form.last_date }}
+
+                            {% for error in form.last_date.errors %}
+
+                                <div class="text-danger small">
+                                    {{ error }}
+                                </div>
+
+                            {% endfor %}
+
+                        </div>
+
+
+                        <!-- ACTIVE -->
+
+                        <div class="form-check mb-3">
+
+                            {{ form.is_active }}
+
+                            <label class="form-check-label">
+                                Job is active
+                            </label>
+
+                        </div>
+
+
+                        <!-- TRENDING -->
+
+                        <div class="form-check mb-4">
+
+                            {{ form.is_trending }}
+
+                            <label class="form-check-label">
+                                Mark as trending
+                            </label>
+
+                        </div>
+
+
+                        <!-- BUTTONS -->
+
+                        <div class="d-flex gap-2">
+
+                            <a
+                                href="{% url 'jobs:company_jobs' %}"
+                                class="btn btn-light"
+                            >
+                                Cancel
+                            </a>
+
+                            <button
+                                type="submit"
+                                class="btn btn-primary flex-grow-1"
+                            >
+                                Save Changes
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

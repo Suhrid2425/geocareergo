@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-Register | GeoCareerGo
+Create Student Account | GeoCareerGo
 {% endblock %}
 
 {% block content %}
@@ -16,10 +16,45 @@ Register | GeoCareerGo
 
                 <div class="feature-card">
 
-                    <h2 class="fw-bold mb-4">
-                        Create Account
+                    <!-- ACCOUNT TYPE -->
+
+                    <div class="text-center mb-3">
+
+                        <div
+                            class="d-inline-flex align-items-center justify-content-center rounded-circle mb-2"
+                            style="
+                                width: 52px;
+                                height: 52px;
+                                background: #eff6ff;
+                                color: #2563eb;
+                                font-size: 24px;
+                            "
+                        >
+                            <i class="bi bi-mortarboard-fill"></i>
+                        </div>
+
+                        <div>
+                            <span class="badge bg-primary-subtle text-primary">
+                                Student
+                            </span>
+                        </div>
+
+                    </div>
+
+
+                    <!-- TITLE -->
+
+                    <h2 class="fw-bold mb-2 text-center">
+                        Create Student Account
                     </h2>
 
+                    <p class="text-muted text-center mb-4">
+                        Create your student account to find jobs,
+                        internships and career opportunities.
+                    </p>
+
+
+                    <!-- MESSAGES -->
 
                     {% if messages %}
 
@@ -34,10 +69,14 @@ Register | GeoCareerGo
                     {% endif %}
 
 
+                    <!-- REGISTRATION FORM -->
+
                     <form method="POST">
 
                         {% csrf_token %}
 
+
+                        <!-- USERNAME -->
 
                         <div class="mb-3">
 
@@ -55,6 +94,8 @@ Register | GeoCareerGo
                         </div>
 
 
+                        <!-- EMAIL -->
+
                         <div class="mb-3">
 
                             <label class="form-label">
@@ -69,6 +110,8 @@ Register | GeoCareerGo
 
                         </div>
 
+
+                        <!-- PASSWORD -->
 
                         <div class="mb-3">
 
@@ -86,6 +129,8 @@ Register | GeoCareerGo
                         </div>
 
 
+                        <!-- CONFIRM PASSWORD -->
+
                         <div class="mb-3">
 
                             <label class="form-label">
@@ -102,25 +147,82 @@ Register | GeoCareerGo
                         </div>
 
 
+                        <!-- CREATE ACCOUNT -->
+
                         <button
                             type="submit"
                             class="btn btn-dark w-100"
                         >
-                            Create Account
+                            Create Student Account
                         </button>
 
                     </form>
 
 
+                    <!-- GOOGLE SIGN IN -->
+
+                    {% if google_client_id %}
+
+                        <div class="text-center my-3">
+
+                            <div class="text-muted small mb-3">
+                                OR
+                            </div>
+
+                            <div
+                                id="g_id_onload"
+                                data-client_id="{{ google_client_id }}"
+                                data-callback="handleGoogleCredential"
+                                data-auto_prompt="false"
+                            >
+                            </div>
+
+                            <div
+                                class="g_id_signin"
+                                data-type="standard"
+                                data-size="large"
+                                data-theme="outline"
+                                data-text="signin_with"
+                                data-shape="rectangular"
+                                data-logo_alignment="left"
+                                data-width="100%"
+                            >
+                            </div>
+
+                        </div>
+
+                    {% endif %}
+
+
+                    <!-- LOGIN -->
+
                     <p class="text-muted text-center mt-4 mb-0">
 
-                        Already have an account?
+                        Already have a student account?
 
                         <a href="{% url 'accounts:login' %}">
                             Login
                         </a>
 
                     </p>
+
+
+                    <!-- COMPANY OPTION -->
+
+                    <div class="text-center mt-3">
+
+                        <small class="text-muted">
+                            Looking to hire?
+                        </small>
+
+                        <a
+                            href="{% url 'accounts:company_register' %}"
+                            class="small fw-semibold text-decoration-none"
+                        >
+                            Create Company Account
+                        </a>
+
+                    </div>
 
                 </div>
 
@@ -131,5 +233,73 @@ Register | GeoCareerGo
     </div>
 
 </section>
+
+
+<!-- GOOGLE IDENTITY SERVICES -->
+
+{% if google_client_id %}
+
+<script
+    src="https://accounts.google.com/gsi/client"
+    async
+    defer
+></script>
+
+<script>
+
+    function handleGoogleCredential(response) {
+
+        fetch("{% url 'accounts:google_login' %}", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": "{{ csrf_token }}"
+            },
+
+            body: JSON.stringify({
+                credential: response.credential
+            })
+
+        })
+
+        .then(response => response.json())
+
+        .then(data => {
+
+            if (data.success) {
+
+                window.location.href = data.redirect;
+
+            } else {
+
+                alert(
+                    data.error ||
+                    "Google Sign-In failed. Please try again."
+                );
+
+            }
+
+        })
+
+        .catch(error => {
+
+            console.error(
+                "Google Sign-In Error:",
+                error
+            );
+
+            alert(
+                "Unable to sign in with Google."
+            );
+
+        });
+
+    }
+
+</script>
+
+{% endif %}
 
 {% endblock %}

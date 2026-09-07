@@ -1,0 +1,341 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8 col-md-10">
+
+            <!-- HEADER -->
+            <div class="text-center mb-4">
+
+                <h2 class="fw-bold">
+                    Edit Company Profile
+                </h2>
+
+                <p class="text-muted">
+                    Update your company information and verification documents.
+                </p>
+
+            </div>
+
+
+            <!-- ERROR -->
+            {% if error %}
+
+                <div class="alert alert-danger shadow-sm">
+                    {{ error }}
+                </div>
+
+            {% endif %}
+
+
+            <!-- SUCCESS -->
+            {% if success %}
+
+                <div class="alert alert-success shadow-sm">
+                    {{ success }}
+                </div>
+
+            {% endif %}
+
+
+            <!-- FORM -->
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body p-4 p-md-5">
+
+                    <form
+                        method="POST"
+                        enctype="multipart/form-data"
+                    >
+
+                        {% csrf_token %}
+
+
+                        <!-- COMPANY NAME -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Company Name
+                                <span class="text-danger">*</span>
+                            </label>
+
+                            <input
+                                type="text"
+                                name="company_name"
+                                class="form-control form-control-lg"
+                                value="{{ profile.company_name|default:'' }}"
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- COMPANY EMAIL -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Company Email
+                                <span class="text-danger">*</span>
+                            </label>
+
+                            <input
+                                type="email"
+                                name="company_email"
+                                class="form-control form-control-lg"
+                                value="{{ profile.company_email|default:'' }}"
+                                required
+                            >
+
+                            <div class="form-text">
+                                This email is used for company login.
+                            </div>
+
+                        </div>
+
+
+                        <!-- WEBSITE -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Company Website
+                            </label>
+
+                            <input
+                                type="url"
+                                name="website"
+                                class="form-control"
+                                value="{{ profile.website|default:'' }}"
+                                placeholder="https://company.com"
+                            >
+
+                        </div>
+
+
+                        <!-- COMPANY LINKEDIN -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Company LinkedIn Profile
+                            </label>
+
+                            <input
+                                type="url"
+                                name="linkedin_url"
+                                class="form-control"
+                                value="{{ profile.linkedin_url|default:'' }}"
+                                placeholder="https://linkedin.com/company/your-company"
+                            >
+
+                        </div>
+
+
+                        <!-- EXECUTIVE LINKEDIN -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Founder / Executive LinkedIn
+                            </label>
+
+                            <input
+                                type="url"
+                                name="executive_linkedin_url"
+                                class="form-control"
+                                value="{{ profile.executive_linkedin_url|default:'' }}"
+                                placeholder="https://linkedin.com/in/founder"
+                            >
+
+                            <div class="form-text">
+                                This helps verify that the company is genuine.
+                            </div>
+
+                        </div>
+
+
+                        <!-- CURRENT LOGO -->
+                        {% if profile.logo %}
+
+                            <div class="mb-3">
+
+                                <label class="form-label fw-semibold">
+                                    Current Company Logo
+                                </label>
+
+                                <div>
+
+                                    <img
+                                        src="{{ profile.logo.url }}"
+                                        alt="Company Logo"
+                                        style="
+                                            width:100px;
+                                            height:100px;
+                                            object-fit:contain;
+                                            border-radius:12px;
+                                            border:1px solid #ddd;
+                                            padding:8px;
+                                        "
+                                    >
+
+                                </div>
+
+                            </div>
+
+                        {% endif %}
+
+
+                        <!-- NEW LOGO -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Change Company Logo
+                            </label>
+
+                            <input
+                                type="file"
+                                name="logo"
+                                class="form-control"
+                                accept="image/*"
+                            >
+
+                            <div class="form-text">
+                                Leave empty if you don't want to change the logo.
+                            </div>
+
+                        </div>
+
+
+                        <!-- CURRENT DOCUMENT -->
+                        {% if profile.registration_document %}
+
+                            <div class="mb-3">
+
+                                <label class="form-label fw-semibold">
+                                    Current Registration Document
+                                </label>
+
+                                <div>
+
+                                    <a
+                                        href="{{ profile.registration_document.url }}"
+                                        target="_blank"
+                                        class="btn btn-outline-secondary btn-sm"
+                                    >
+                                        View Current Document
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        {% endif %}
+
+
+                        <!-- NEW DOCUMENT -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Change Registration Document
+                            </label>
+
+                            <input
+                                type="file"
+                                name="registration_document"
+                                class="form-control"
+                                accept=".pdf,.jpg,.jpeg,.png"
+                            >
+
+                            <div class="form-text">
+                                Leave empty if you don't want to change the document.
+                            </div>
+
+                        </div>
+
+
+                        <hr class="my-4">
+
+
+                        <!-- VERIFICATION STATUS -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Verification Status
+                            </label>
+
+                            <div>
+
+                                {% if profile.verification_status == "verified" %}
+
+                                    <span class="badge bg-success">
+                                        ✓ Verified
+                                    </span>
+
+                                {% elif profile.verification_status == "pending" %}
+
+                                    <span class="badge bg-warning text-dark">
+                                        Pending Review
+                                    </span>
+
+                                {% elif profile.verification_status == "rejected" %}
+
+                                    <span class="badge bg-danger">
+                                        Rejected
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-secondary">
+                                        Not Submitted
+                                    </span>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- SUBMIT -->
+                        <div class="d-flex justify-content-between">
+
+                            <a
+                                href="{% url 'accounts:company_dashboard' %}"
+                                class="btn btn-outline-secondary"
+                            >
+                                Cancel
+                            </a>
+
+                            <button
+                                type="submit"
+                                class="btn btn-primary"
+                            >
+                                Save Changes
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+
+            <!-- NOTE -->
+            <div class="text-center mt-4">
+
+                <small class="text-muted">
+                    Changes to company information may require verification again.
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

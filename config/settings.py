@@ -19,6 +19,28 @@ import dj_database_url
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv(BASE_DIR / ".env")
+# ==================================================
+# GOOGLE SIGN-IN
+# ==================================================
+
+GOOGLE_CLIENT_ID = os.environ.get(
+    "GOOGLE_CLIENT_ID",
+    ""
+)
+
+
+# ==================================================
+# ADSENSE
+# ==================================================
+
+ADSENSE_CLIENT_ID = os.environ.get(
+    "ADSENSE_CLIENT_ID",
+    ""
+)
+
+ADSENSE_ENABLED = bool(
+    ADSENSE_CLIENT_ID
+)
 
 # ==================================================
 # SECURITY
@@ -43,6 +65,8 @@ CSRF_TRUSTED_ORIGINS = [
     "https://geocareergo.com",
     "https://www.geocareergo.com",
 ]
+# Google Sign-In popup compatibility
+SECURE_CROSS_ORIGIN_OPENER_POLICY = "same-origin-allow-popups"
 
 
 
@@ -58,6 +82,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sitemaps",
 
     "core",
     "jobs",
@@ -120,6 +145,8 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
 
                 "django.contrib.messages.context_processors.messages",
+
+                "core.context_processors.site_settings",
 
             ],
 

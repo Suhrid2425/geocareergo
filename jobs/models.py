@@ -36,9 +36,12 @@ class Job(models.Model):
         max_length=200
     )
 
-    organization = models.CharField(
-        max_length=200
-    )
+    company = models.ForeignKey(
+    "accounts.CompanyProfile",
+    on_delete=models.CASCADE,
+    related_name="jobs"
+)
+
 
     location = models.CharField(
         max_length=200
@@ -122,6 +125,10 @@ class Job(models.Model):
     is_active = models.BooleanField(
         default=True
     )
+    is_trending = models.BooleanField(
+    default=False,
+    help_text="Show this job in the Trending Jobs section on the homepage."
+)
 
     created_at = models.DateTimeField(
         auto_now_add=True

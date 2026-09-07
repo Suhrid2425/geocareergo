@@ -10,7 +10,6 @@
 
     <div class="container">
 
-
         <!-- BACK -->
 
         <a
@@ -34,46 +33,175 @@
                 <!-- JOB TYPE -->
 
                 <span class="badge bg-light text-dark border mb-3">
-
                     {{ job.get_job_type_display }}
-
                 </span>
 
 
                 <!-- DEGREE -->
 
                 <span class="badge bg-light text-dark border mb-3 ms-1">
-
                     {{ job.get_degree_display }}
-
                 </span>
 
 
+                <!-- JOB TITLE -->
+
                 <h1 class="fw-bold">
-
                     {{ job.title }}
-
                 </h1>
 
 
-                <h5 class="mt-3">
+                <!-- COMPANY -->
 
-                    {{ job.organization }}
+                <div class="job-company mt-3">
 
-                </h5>
+                    {% if job.organization_logo %}
 
+                        <img
+                            src="{{ job.organization_logo.url }}"
+                            alt="{{ job.organization }} logo"
+                            class="company-logo"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                        >
+
+                        <div
+                            class="company-logo company-logo-fallback"
+                            style="display: none;"
+                        >
+                            {{ job.organization|first|upper }}
+                        </div>
+
+                    {% else %}
+
+                        <div class="company-logo company-logo-fallback">
+                            {{ job.organization|first|upper }}
+                        </div>
+
+                    {% endif %}
+
+
+                    <h5 class="mb-0">
+                        {{ job.organization }}
+                    </h5>
+
+                </div>
+
+
+                <!-- LOCATION -->
 
                 <p class="text-muted">
-
                     📍 {{ job.location }}
-
                 </p>
+
+
+                <!-- ==================================================
+                     SHARE JOB
+                =================================================== -->
+
+                <div class="job-share-section mt-4">
+
+                    <div class="job-share-title">
+                        Share this job
+                    </div>
+
+
+                    <div class="job-share-buttons">
+
+
+                        <!-- LinkedIn -->
+
+                        <a
+                            href="#"
+                            class="job-share-btn linkedin"
+                            data-share="linkedin"
+                            aria-label="Share on LinkedIn"
+                            title="Share on LinkedIn"
+                        >
+                            <i class="bi bi-linkedin"></i>
+                        </a>
+
+
+                        <!-- WhatsApp -->
+
+                        <a
+                            href="#"
+                            class="job-share-btn whatsapp"
+                            data-share="whatsapp"
+                            aria-label="Share on WhatsApp"
+                            title="Share on WhatsApp"
+                        >
+                            <i class="bi bi-whatsapp"></i>
+                        </a>
+
+
+                        <!-- Facebook -->
+
+                        <a
+                            href="#"
+                            class="job-share-btn facebook"
+                            data-share="facebook"
+                            aria-label="Share on Facebook"
+                            title="Share on Facebook"
+                        >
+                            <i class="bi bi-facebook"></i>
+                        </a>
+
+
+                        <!-- X -->
+
+                        <a
+                            href="#"
+                            class="job-share-btn twitter"
+                            data-share="twitter"
+                            aria-label="Share on X"
+                            title="Share on X"
+                        >
+                            <i class="bi bi-twitter-x"></i>
+                        </a>
+
+
+                        <!-- Native Share -->
+
+                        <button
+                            type="button"
+                            class="job-share-btn native-share"
+                            id="nativeShareButton"
+                            aria-label="Share this job"
+                            title="Share this job"
+                        >
+                            <i class="bi bi-share"></i>
+                        </button>
+
+
+                        <!-- Copy Link -->
+
+                        <button
+                            type="button"
+                            class="job-share-btn copy-share"
+                            id="copyShareButton"
+                            aria-label="Copy job link"
+                            title="Copy job link"
+                        >
+                            <i class="bi bi-link-45deg"></i>
+                        </button>
+
+                    </div>
+
+
+                    <div
+                        id="copyShareMessage"
+                        class="copy-share-message"
+                    ></div>
+
+                </div>
 
 
                 <hr>
 
 
-                <!-- DESCRIPTION -->
+                <!-- ==================================================
+                     DESCRIPTION
+                =================================================== -->
 
                 <h4 class="mt-4">
                     Job Description
@@ -84,7 +212,9 @@
                 </p>
 
 
-                <!-- QUALIFICATION -->
+                <!-- ==================================================
+                     QUALIFICATION
+                =================================================== -->
 
                 <h4 class="mt-4">
                     Qualification
@@ -95,7 +225,9 @@
                 </p>
 
 
-                <!-- EXPERIENCE -->
+                <!-- ==================================================
+                     EXPERIENCE
+                =================================================== -->
 
                 <h4 class="mt-4">
                     Experience
@@ -104,26 +236,17 @@
                 <p>
 
                     {% if job.min_experience != None %}
-
                         {{ job.min_experience }}
-
                     {% else %}
-
                         0
-
                     {% endif %}
-
 
                     -
 
                     {% if job.max_experience != None %}
-
                         {{ job.max_experience }}
-
                     {% else %}
-
                         No upper limit
-
                     {% endif %}
 
                     years
@@ -229,29 +352,20 @@
                     {% endif %}
 
 
-                    <!-- APPLICATION -->
+                    <!-- ==================================================
+                         APPLICATION
 
-                    {% if job.application_type == "external" %}
+                         BOTH INTERNAL AND EXTERNAL JOBS
+                         GO THROUGH GEOCAREERGO LOGIN FIRST
+                    =================================================== -->
 
-                        <a
-                            href="{{ job.application_url }}"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="btn btn-dark w-100 mt-3"
-                        >
-                            Apply Now
-                        </a>
-
-                    {% else %}
-
-    <a
-        href="{% url 'jobs:apply_job' job.id %}"
-        class="btn btn-dark w-100 mt-3"
-    >
-        Apply on GeoCareerGo
-    </a>
-
-{% endif %}
+                    <a
+    href="{% url 'jobs:apply_job' job.id %}"
+    class="job-apply-main-btn"
+>
+    <span>Apply Now</span>
+    <span class="job-apply-arrow">→</span>
+</a>
 
                 </div>
 
@@ -262,5 +376,367 @@
     </div>
 
 </section>
+
+
+<!-- ==================================================
+     MOBILE FLOATING APPLY BUTTON
+================================================== -->
+
+<div class="mobile-apply-wrapper">
+
+    <a
+        href="{% url 'jobs:apply_job' job.id %}"
+        class="mobile-apply-button"
+    >
+
+        <span>
+            Apply Now
+        </span>
+
+        <span class="mobile-apply-arrow">
+            →
+        </span>
+
+    </a>
+
+</div>
+
+
+<!-- ==================================================
+     SHARE JAVASCRIPT
+================================================== -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+
+    /*
+    ==================================================
+    GET CURRENT JOB URL
+    ==================================================
+    */
+
+    const currentUrl = window.location.href;
+
+    const jobTitle = "{{ job.title|escapejs }}";
+
+    const shareText =
+        jobTitle + " - Find this job on GeoCareerGo";
+
+
+    /*
+    ==================================================
+    UTM URL GENERATOR
+    ==================================================
+    */
+
+    function createUTMUrl(source) {
+
+        const url = new URL(currentUrl);
+
+        url.searchParams.set(
+            "utm_source",
+            source
+        );
+
+        url.searchParams.set(
+            "utm_medium",
+            "social"
+        );
+
+        url.searchParams.set(
+            "utm_campaign",
+            "job_share"
+        );
+
+        return url.toString();
+    }
+
+
+    /*
+    ==================================================
+    SOCIAL SHARE BUTTONS
+    ==================================================
+    */
+
+    const shareButtons =
+        document.querySelectorAll("[data-share]");
+
+
+    shareButtons.forEach(function (button) {
+
+        button.addEventListener(
+            "click",
+            function (event) {
+
+                event.preventDefault();
+
+                const platform =
+                    button.dataset.share;
+
+
+                const shareUrl =
+                    createUTMUrl(platform);
+
+
+                let finalUrl = "";
+
+
+                /*
+                LinkedIn
+                */
+
+                if (platform === "linkedin") {
+
+                    finalUrl =
+                        "https://www.linkedin.com/sharing/share-offsite/?url="
+                        + encodeURIComponent(shareUrl);
+
+                }
+
+
+                /*
+                WhatsApp
+                */
+
+                else if (platform === "whatsapp") {
+
+                    finalUrl =
+                        "https://wa.me/?text="
+                        + encodeURIComponent(
+                            shareText + "\n" + shareUrl
+                        );
+
+                }
+
+
+                /*
+                Facebook
+                */
+
+                else if (platform === "facebook") {
+
+                    finalUrl =
+                        "https://www.facebook.com/sharer/sharer.php?u="
+                        + encodeURIComponent(shareUrl);
+
+                }
+
+
+                /*
+                X / Twitter
+                */
+
+                else if (platform === "twitter") {
+
+                    finalUrl =
+                        "https://twitter.com/intent/tweet?text="
+                        + encodeURIComponent(shareText)
+                        + "&url="
+                        + encodeURIComponent(shareUrl);
+
+                }
+
+
+                /*
+                OPEN SHARE WINDOW
+                */
+
+                if (finalUrl) {
+
+                    window.open(
+                        finalUrl,
+                        "_blank",
+                        "width=700,height=600"
+                    );
+
+                }
+
+            }
+        );
+
+    });
+
+
+    /*
+    ==================================================
+    NATIVE MOBILE SHARE
+    ==================================================
+    */
+
+    const nativeShareButton =
+        document.getElementById(
+            "nativeShareButton"
+        );
+
+
+    if (nativeShareButton) {
+
+        nativeShareButton.addEventListener(
+            "click",
+            async function () {
+
+                const shareUrl =
+                    createUTMUrl("native_share");
+
+
+                if (navigator.share) {
+
+                    try {
+
+                        await navigator.share({
+
+                            title: jobTitle,
+
+                            text: shareText,
+
+                            url: shareUrl
+
+                        });
+
+                    } catch (error) {
+
+                        /*
+                        User cancelled share.
+                        Do nothing.
+                        */
+
+                    }
+
+                } else {
+
+                    copyToClipboard(
+                        shareUrl,
+                        "Sharing is not supported here. Link copied!"
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /*
+    ==================================================
+    COPY LINK
+    ==================================================
+    */
+
+    const copyButton =
+        document.getElementById(
+            "copyShareButton"
+        );
+
+
+    const copyMessage =
+        document.getElementById(
+            "copyShareMessage"
+        );
+
+
+    if (copyButton) {
+
+        copyButton.addEventListener(
+            "click",
+            function () {
+
+                const shareUrl =
+                    createUTMUrl("copy_link");
+
+
+                copyToClipboard(
+                    shareUrl,
+                    "Link copied!"
+                );
+
+            }
+        );
+
+    }
+
+
+    /*
+    ==================================================
+    COPY FUNCTION
+    ==================================================
+    */
+
+    function copyToClipboard(
+        text,
+        message
+    ) {
+
+        navigator.clipboard.writeText(text)
+            .then(function () {
+
+                if (copyMessage) {
+
+                    copyMessage.textContent =
+                        message;
+
+                    setTimeout(
+                        function () {
+
+                            copyMessage.textContent =
+                                "";
+
+                        },
+                        2500
+                    );
+
+                }
+
+            })
+            .catch(function () {
+
+                /*
+                Fallback for older browsers
+                */
+
+                const textarea =
+                    document.createElement("textarea");
+
+                textarea.value = text;
+
+                document.body.appendChild(
+                    textarea
+                );
+
+                textarea.select();
+
+                document.execCommand(
+                    "copy"
+                );
+
+                textarea.remove();
+
+
+                if (copyMessage) {
+
+                    copyMessage.textContent =
+                        message;
+
+                    setTimeout(
+                        function () {
+
+                            copyMessage.textContent =
+                                "";
+
+                        },
+                        2500
+                    );
+
+                }
+
+            });
+
+    }
+
+});
+
+</script>
 
 {% endblock %}
