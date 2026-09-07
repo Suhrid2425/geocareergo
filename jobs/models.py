@@ -39,7 +39,9 @@ class Job(models.Model):
     company = models.ForeignKey(
     "accounts.CompanyProfile",
     on_delete=models.CASCADE,
-    related_name="jobs"
+    related_name="jobs",
+    null=True,
+    blank=True,
 )
 
 
