@@ -47,7 +47,7 @@ ADSENSE_ENABLED = bool(
 # ==================================================
 
 SECRET_KEY = os.environ.get(
-    "DJANGO_SECRET_KEY"
+    "SECRET_KEY"
 )
 DEBUG = True
 
