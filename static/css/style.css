@@ -1490,6 +1490,10 @@ body {
 }
 
 
+/* ==================================================
+   MOBILE
+================================================== */
+
 @media (max-width: 767.98px) {
 
     .mobile-apply-wrapper {
@@ -1607,9 +1611,7 @@ body {
     }
 
 
-    /*
-       Space for bottom navigation
-    */
+    /* Space for bottom navigation */
 
     body {
         padding-bottom: 150px !important;
@@ -2039,6 +2041,8 @@ body {
         letter-spacing: -0.8px;
     }
 }
+
+
 /* ==================================================
    ACCOUNT CHOICE MODAL
 ================================================== */
@@ -2103,7 +2107,9 @@ body {
 }
 
 
-/* MOBILE */
+/* ==================================================
+   MOBILE ACCOUNT CHOICE
+================================================== */
 
 @media (max-width: 576px) {
 
@@ -2124,6 +2130,12 @@ body {
     }
 
 }
+
+
+/* ==================================================
+   JOB FILTER TOGGLE
+================================================== */
+
 .job-filter-toggle {
     background: #f8fafc;
     border: 1px solid #d1d5db;
@@ -2157,7 +2169,7 @@ body {
 
 
 /* ==================================================
-   DESKTOP
+   DESKTOP JOB FILTER
 ================================================== */
 
 @media (min-width: 992px) {
@@ -2166,4 +2178,96 @@ body {
         display: block !important;
     }
 
+}
+
+
+/* ==================================================
+   GEOCareerGo BRAND — FINAL
+================================================== */
+
+.navbar-brand.brand {
+    display: inline-flex !important;
+    align-items: center !important;
+
+    gap: 4px !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    text-decoration: none !important;
+    color: inherit !important;
+
+    line-height: 1 !important;
+}
+
+
+/* ==================================================
+   GCG LOGO
+================================================== */
+
+.navbar-brand.brand img {
+    width: 46px !important;
+    height: 46px !important;
+
+    object-fit: contain !important;
+
+    display: block !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    flex-shrink: 0 !important;
+
+    /*
+       Makes the visible GCG logo larger
+       while keeping the layout box controlled.
+    */
+    transform: scale(1.35) !important;
+    transform-origin: center center !important;
+}
+
+
+/* ==================================================
+   GeoCareerGo TEXT
+================================================== */
+
+.navbar-brand.brand strong {
+    display: inline-block !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    font-size: 1.35rem !important;
+    font-weight: 700 !important;
+
+    line-height: 1 !important;
+
+    letter-spacing: -0.5px !important;
+
+    white-space: nowrap !important;
+}
+
+
+/* ==================================================
+   MOBILE BRAND
+================================================== */
+
+@media (max-width: 767.98px) {
+
+    .navbar-brand.brand {
+        gap: 4px !important;
+    }
+
+    .navbar-brand.brand img {
+        width: 30px !important;
+        height: 30px !important;
+
+        transform: scale(1.3) !important;
+    }
+
+    .navbar-brand.brand strong {
+        font-size: 1.15rem !important;
+
+        margin: 0 !important;
+    }
 }
