@@ -120,6 +120,7 @@ urlpatterns = [
         "tests/",
         include("exam_tests.urls")
     ),
+    path("career/", include("career.urls")),
 
 ]
 

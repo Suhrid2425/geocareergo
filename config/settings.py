@@ -89,6 +89,7 @@ INSTALLED_APPS = [
     "notes",
     "accounts",
     "exam_tests",
+    "career",
 ]
 
 

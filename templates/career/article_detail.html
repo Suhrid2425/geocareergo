@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block title %}{{ article.title }} | GeoCareerGo{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-12 col-lg-8">
+
+            <!-- Category -->
+            <div class="mb-3">
+                <span class="badge bg-primary-subtle text-primary">
+                    {{ article.get_category_display }}
+                </span>
+            </div>
+
+            <!-- Title -->
+            <h1 class="fw-bold mb-3">
+                {{ article.title }}
+            </h1>
+
+            <!-- Meta -->
+            <div class="text-muted small mb-4">
+                By {{ article.author }}
+                ·
+                {{ article.created_at|date:"M d, Y" }}
+                {% if article.updated_at != article.created_at %}
+                    · Updated {{ article.updated_at|date:"M d, Y" }}
+                {% endif %}
+            </div>
+
+            <!-- Featured image -->
+            {% if article.featured_image %}
+                <img
+                    src="{{ article.featured_image.url }}"
+                    alt="{{ article.title }}"
+                    class="img-fluid rounded shadow-sm mb-4"
+                >
+            {% endif %}
+
+            <!-- Article content -->
+            <div class="article-content">
+                {{ article.content|linebreaks }}
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Related articles -->
+    {% if related_articles %}
+
+    <div class="mt-5 pt-4 border-top">
+
+        <h2 class="h4 fw-bold mb-4">
+            Related Career Guides
+        </h2>
+
+        <div class="row g-4">
+
+            {% for related in related_articles %}
+
+            <div class="col-12 col-md-4">
+
+                <div class="card h-100 border-0 shadow-sm">
+
+                    <div class="card-body">
+
+                        <span class="badge bg-light text-dark mb-2">
+                            {{ related.get_category_display }}
+                        </span>
+
+                        <h3 class="h6 fw-bold">
+                            {{ related.title }}
+                        </h3>
+
+                        <p class="text-muted small">
+                            {{ related.excerpt }}
+                        </p>
+
+                        <a
+                            href="{% url 'career:article_detail' related.slug %}"
+                            class="btn btn-sm btn-outline-primary"
+                        >
+                            Read More
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
