@@ -12,6 +12,7 @@ class JobAdmin(admin.ModelAdmin):
 
     list_display = (
         "title",
+        "company_name",
         "company",
         "job_type",
         "degree",
@@ -34,6 +35,7 @@ class JobAdmin(admin.ModelAdmin):
 
     search_fields = (
         "title",
+        "company_name",
         "company__company_name",
         "location",
         "qualification",
@@ -47,6 +49,8 @@ class JobAdmin(admin.ModelAdmin):
             {
                 "fields": (
                     "title",
+                    "company_name",
+                    "company_logo",
                     "company",
                     "location",
                     "job_type",
@@ -132,6 +136,7 @@ class JobApplicationAdmin(admin.ModelAdmin):
 
     search_fields = (
         "job__title",
+        "job__company_name",
         "job__company__company_name",
         "applicant__username",
         "applicant__email",

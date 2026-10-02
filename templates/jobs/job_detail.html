@@ -55,11 +55,11 @@
 
                 <div class="job-company mt-3">
 
-                    {% if job.organization_logo %}
+                    {% if job.company_logo %}
 
                         <img
-                            src="{{ job.organization_logo.url }}"
-                            alt="{{ job.organization }} logo"
+                            src="{{ job.company_logo.url }}"
+                            alt="{{ job.company_name }} logo"
                             class="company-logo"
                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
                         >
@@ -68,20 +68,20 @@
                             class="company-logo company-logo-fallback"
                             style="display: none;"
                         >
-                            {{ job.organization|first|upper }}
+                            {{ job.company_name|first|upper }}
                         </div>
 
                     {% else %}
 
                         <div class="company-logo company-logo-fallback">
-                            {{ job.organization|first|upper }}
+                            {{ job.company_name|first|upper }}
                         </div>
 
                     {% endif %}
 
 
                     <h5 class="mb-0">
-                        {{ job.organization }}
+                        {{ job.company_name }}
                     </h5>
 
                 </div>

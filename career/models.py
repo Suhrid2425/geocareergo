@@ -19,6 +19,10 @@ class Article(models.Model):
         choices=CATEGORY_CHOICES,
         default="career",
     )
+    company_name = models.CharField(
+    max_length=200,
+    blank=True
+)
     excerpt = models.TextField(max_length=300)
     content = models.TextField()
 

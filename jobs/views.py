@@ -32,6 +32,7 @@ def job_list(request):
     if search:
         jobs = jobs.filter(
             Q(title__icontains=search)
+            | Q(company_name__icontains=search)
             | Q(company__company_name__icontains=search)
             | Q(location__icontains=search)
         )
@@ -335,7 +336,8 @@ def post_job(request):
     if request.method == "POST":
 
         form = JobForm(
-            request.POST
+            request.POST,
+            request.FILES
         )
 
         if form.is_valid():
@@ -348,6 +350,13 @@ def post_job(request):
             # the logged-in company account.
 
             job.company = company
+
+            # ------------------------------------------------
+            # COMPANY NAME
+            # ------------------------------------------------
+
+            if not job.company_name:
+                job.company_name = company.company_name
 
             # ------------------------------------------------
             # SECURITY / DEFAULTS
@@ -373,7 +382,11 @@ def post_job(request):
 
     else:
 
-        form = JobForm()
+        form = JobForm(
+            initial={
+                "company_name": company.company_name,
+            }
+        )
 
     return render(
         request,
@@ -476,6 +489,7 @@ def edit_job(request, job_id):
 
         form = JobForm(
             request.POST,
+            request.FILES,
             instance=job
         )
 
@@ -489,6 +503,9 @@ def edit_job(request, job_id):
             # to be changed through the form.
 
             updated_job.company = company
+
+            if not updated_job.company_name:
+                updated_job.company_name = company.company_name
 
             # Company cannot make a job trending.
 

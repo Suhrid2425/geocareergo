@@ -36,13 +36,25 @@ class Job(models.Model):
         max_length=200
     )
 
+    company_name = models.CharField(
+        max_length=200,
+        blank=True,
+        default=""
+    )
+
+    company_logo = models.ImageField(
+        upload_to="job_company_logos/",
+        blank=True,
+        null=True
+    )
+
     company = models.ForeignKey(
-    "accounts.CompanyProfile",
-    on_delete=models.CASCADE,
-    related_name="jobs",
-    null=True,
-    blank=True,
-)
+        "accounts.CompanyProfile",
+        on_delete=models.SET_NULL,
+        related_name="jobs",
+        null=True,
+        blank=True,
+    )
 
 
     location = models.CharField(
