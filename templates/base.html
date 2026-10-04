@@ -796,13 +796,56 @@
 
     <div class="container text-center text-muted">
 
-        <p class="mb-1">
+        <p class="mb-2">
             © 2026 GeoCareerGo
         </p>
 
-        <small>
-            Jobs • Preparation • Tests • Mentorship
-        </small>
+        <div class="small">
+
+            <a
+                href="{% url 'jobs:job_list' %}"
+                class="text-muted text-decoration-none me-2"
+            >
+                Jobs
+            </a>
+
+            <span>•</span>
+
+            <a
+                href="{% url 'core:about' %}"
+                class="text-muted text-decoration-none mx-2"
+            >
+                About
+            </a>
+
+            <span>•</span>
+
+            <a
+                href="{% url 'core:contact' %}"
+                class="text-muted text-decoration-none mx-2"
+            >
+                Contact
+            </a>
+
+            <span>•</span>
+
+            <a
+                href="{% url 'core:privacy_policy' %}"
+                class="text-muted text-decoration-none mx-2"
+            >
+                Privacy Policy
+            </a>
+
+            <span>•</span>
+
+            <a
+                href="{% url 'core:terms' %}"
+                class="text-muted text-decoration-none mx-2"
+            >
+                Terms &amp; Conditions
+            </a>
+
+        </div>
 
     </div>
 
