@@ -1,10 +1,12 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
+
 from accounts.models import CompanyProfile
-from django.http import HttpResponse, HttpResponseRedirect
+
 from .forms import JobApplicationForm, JobForm
 from .models import Job, JobApplication
 
@@ -161,10 +163,6 @@ def apply_job(request, job_id):
 
     # --------------------------------------------------------
     # EXTERNAL APPLICATION
-    #
-    # User must be logged into GeoCareerGo first.
-    # Once logged in, continue to the company's
-    # external application website.
     # --------------------------------------------------------
 
     if job.application_type == "external":
@@ -184,13 +182,15 @@ def apply_job(request, job_id):
         return redirect(
             job.application_url
         )
-        # --------------------------------------------------------
+
+    # --------------------------------------------------------
     # EMAIL APPLICATION
     # --------------------------------------------------------
 
     if job.application_type == "email":
 
         if not job.application_email:
+
             messages.error(
                 request,
                 "Application email is not available for this job."
@@ -201,9 +201,16 @@ def apply_job(request, job_id):
                 job_id=job.id
             )
 
-        return HttpResponseRedirect(
+        # Django's redirect() blocks the mailto:// scheme.
+        # Therefore we manually return a 302 response.
+
+        response = HttpResponse(status=302)
+
+        response["Location"] = (
             f"mailto:{job.application_email}"
         )
+
+        return response
 
     # --------------------------------------------------------
     # INTERNAL APPLICATION
@@ -375,6 +382,7 @@ def post_job(request):
             # ------------------------------------------------
 
             if not job.company_name:
+
                 job.company_name = company.company_name
 
             # ------------------------------------------------
@@ -524,7 +532,10 @@ def edit_job(request, job_id):
             updated_job.company = company
 
             if not updated_job.company_name:
-                updated_job.company_name = company.company_name
+
+                updated_job.company_name = (
+                    company.company_name
+                )
 
             # Company cannot make a job trending.
 
@@ -805,10 +816,8 @@ def job_applications(request, job_id):
             "job": job,
             "applications": applications,
             "status_choices": JobApplication.STATUS_CHOICES,
-
             "search": search,
             "selected_status": status,
-
             "total_count": total_count,
             "submitted_count": submitted_count,
             "reviewing_count": reviewing_count,
