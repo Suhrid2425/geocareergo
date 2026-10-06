@@ -3,9 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
-from django.http import HttpResponseRedirect
 from accounts.models import CompanyProfile
-
+from django.http import HttpResponse, HttpResponseRedirect
 from .forms import JobApplicationForm, JobForm
 from .models import Job, JobApplication
 
