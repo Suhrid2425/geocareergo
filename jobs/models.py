@@ -24,9 +24,10 @@ class Job(models.Model):
     ]
 
     APPLICATION_TYPES = [
-        ("external", "External Website"),
-        ("internal", "Apply on GeoCareerGo"),
-    ]
+    ("external", "External Website"),
+    ("email", "Email Application"),
+    ("internal", "Apply on GeoCareerGo"),
+]
 
     # ==================================================
     # BASIC JOB INFORMATION
@@ -122,7 +123,10 @@ class Job(models.Model):
     application_url = models.URLField(
         blank=True
     )
-
+    application_email = models.EmailField(
+    blank=True,
+    help_text="Email address where applicants should send their CV."
+    )
     # ==================================================
     # DEADLINE
     # ==================================================

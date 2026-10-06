@@ -94,6 +94,7 @@ class JobAdmin(admin.ModelAdmin):
                 "fields": (
                     "application_type",
                     "application_url",
+                    "application_email",
                 )
             },
         ),

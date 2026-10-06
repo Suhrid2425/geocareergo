@@ -185,6 +185,26 @@ def apply_job(request, job_id):
         return redirect(
             job.application_url
         )
+        # --------------------------------------------------------
+    # EMAIL APPLICATION
+    # --------------------------------------------------------
+
+    if job.application_type == "email":
+
+        if not job.application_email:
+            messages.error(
+                request,
+                "Application email is not available for this job."
+            )
+
+            return redirect(
+                "jobs:job_detail",
+                job_id=job.id
+            )
+
+        return redirect(
+            f"mailto:{job.application_email}"
+        )
 
     # --------------------------------------------------------
     # INTERNAL APPLICATION
