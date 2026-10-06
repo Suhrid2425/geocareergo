@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
-
+from django.http import HttpResponseRedirect
 from accounts.models import CompanyProfile
 
 from .forms import JobApplicationForm, JobForm
@@ -202,7 +202,7 @@ def apply_job(request, job_id):
                 job_id=job.id
             )
 
-        return redirect(
+        return HttpResponseRedirect(
             f"mailto:{job.application_email}"
         )
 
