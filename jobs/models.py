@@ -1,3 +1,4 @@
+
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -24,18 +25,16 @@ class Job(models.Model):
     ]
 
     APPLICATION_TYPES = [
-    ("external", "External Website"),
-    ("email", "Email Application"),
-    ("internal", "Apply on GeoCareerGo"),
-]
+        ("external", "External Website"),
+        ("email", "Email Application"),
+        ("internal", "Apply on GeoCareerGo"),
+    ]
 
     # ==================================================
     # BASIC JOB INFORMATION
     # ==================================================
 
-    title = models.CharField(
-        max_length=200
-    )
+    title = models.CharField(max_length=200)
 
     company_name = models.CharField(
         max_length=200,
@@ -57,10 +56,7 @@ class Job(models.Model):
         blank=True,
     )
 
-
-    location = models.CharField(
-        max_length=200
-    )
+    location = models.CharField(max_length=200)
 
     job_type = models.CharField(
         max_length=20,
@@ -111,6 +107,27 @@ class Job(models.Model):
     description = models.TextField()
 
     # ==================================================
+    # SEO & ORIGINAL SOURCE
+    # ==================================================
+
+    seo_title = models.CharField(
+        max_length=70,
+        blank=True,
+        help_text="Optional custom SEO title."
+    )
+
+    meta_description = models.CharField(
+        max_length=160,
+        blank=True,
+        help_text="Optional custom meta description."
+    )
+
+    source_url = models.URLField(
+        blank=True,
+        help_text="Original employer job posting URL."
+    )
+
+    # ==================================================
     # APPLICATION
     # ==================================================
 
@@ -120,13 +137,13 @@ class Job(models.Model):
         default="external"
     )
 
-    application_url = models.URLField(
-        blank=True
-    )
+    application_url = models.URLField(blank=True)
+
     application_email = models.EmailField(
-    blank=True,
-    help_text="Email address where applicants should send their CV."
+        blank=True,
+        help_text="Email address where applicants should send their CV."
     )
+
     # ==================================================
     # DEADLINE
     # ==================================================
@@ -140,24 +157,102 @@ class Job(models.Model):
     # STATUS
     # ==================================================
 
-    is_active = models.BooleanField(
-        default=True
-    )
+    is_active = models.BooleanField(default=True)
+
     is_trending = models.BooleanField(
-    default=False,
-    help_text="Show this job in the Trending Jobs section on the homepage."
-)
-
-    created_at = models.DateTimeField(
-        auto_now_add=True
+        default=False,
+        help_text="Show this job in the Trending Jobs section on the homepage."
     )
 
-    updated_at = models.DateTimeField(
-        auto_now=True
-    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    updated_at = models.DateTimeField(auto_now=True)
+
+    # ==================================================
+    # SEO PROPERTIES
+    # ==================================================
+
+    @property
+    def get_seo_title(self):
+        if self.seo_title:
+            return self.seo_title
+
+        employer = self.company_name or "Employer"
+
+        return f"{self.title} at {employer} | GeoCareerGo"
+
+    @property
+    def get_meta_description(self):
+        if self.meta_description:
+            return self.meta_description
+
+        experience = (
+            self.experience_display
+            if self.min_experience is not None
+            else "Check experience requirements"
+        )
+
+        employer = self.company_name or "the employer"
+
+        description = (
+            f"Explore {self.title} at {employer} in {self.location}. "
+            f"{experience}. Check qualifications and application details."
+        )
+
+        return description[:160]
+
+    # ==================================================
+    # EXPERIENCE DISPLAY
+    # ==================================================
+
+    @property
+    def experience_display(self):
+
+        minimum = self.min_experience
+        maximum = self.max_experience
+
+        if minimum is None and maximum is None:
+            return "Not specified"
+
+        if minimum is not None and maximum is None:
+            return f"{minimum}+ years"
+
+        if minimum is None and maximum is not None:
+            return f"Up to {maximum} years"
+
+        if minimum == maximum:
+            return f"{minimum} years"
+
+        return f"{minimum}-{maximum} years"
+
+    # ==================================================
+    # JOB STATUS
+    # ==================================================
+
+    @property
+    def is_expired(self):
+        from django.utils import timezone
+
+        if self.last_date is None:
+            return False
+
+        return self.last_date < timezone.localdate()
+
+    # ==================================================
+    # STRING REPRESENTATION
+    # ==================================================
 
     def __str__(self):
         return self.title
+
+    # ==================================================
+    # META
+    # ==================================================
+
+    class Meta:
+        ordering = ["-created_at"]
+        verbose_name = "Job"
+        verbose_name_plural = "Jobs"
 
 
 # ==================================================
@@ -194,18 +289,11 @@ class JobApplication(models.Model):
     # APPLICANT INFORMATION
     # ==================================================
 
-    phone = models.CharField(
-        max_length=20
-    )
+    phone = models.CharField(max_length=20)
 
-    # Resume uploaded by applicant
-    resume = models.FileField(
-        upload_to="resumes/"
-    )
+    resume = models.FileField(upload_to="resumes/")
 
-    cover_message = models.TextField(
-        blank=True
-    )
+    cover_message = models.TextField(blank=True)
 
     # ==================================================
     # APPLICATION STATUS
@@ -221,13 +309,9 @@ class JobApplication(models.Model):
     # DATES
     # ==================================================
 
-    applied_at = models.DateTimeField(
-        auto_now_add=True
-    )
+    applied_at = models.DateTimeField(auto_now_add=True)
 
-    updated_at = models.DateTimeField(
-        auto_now=True
-    )
+    updated_at = models.DateTimeField(auto_now=True)
 
     # ==================================================
     # META
@@ -235,16 +319,11 @@ class JobApplication(models.Model):
 
     class Meta:
 
-        ordering = [
-            "-applied_at"
-        ]
+        ordering = ["-applied_at"]
 
         constraints = [
             models.UniqueConstraint(
-                fields=[
-                    "job",
-                    "applicant"
-                ],
+                fields=["job", "applicant"],
                 name="unique_job_application"
             )
         ]
